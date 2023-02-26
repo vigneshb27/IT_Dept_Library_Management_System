@@ -1,0 +1,53 @@
+.entire{
+    position: sticky;
+}
+  header {
+    background-color: rgba(10, 1, 35, 0.933);
+    color: white;
+    width: 100%;
+    top: 0;
+    display: flex;
+    padding: 0.5em;
+    gap: 0.5em;
+    font-family: "Noto Sans", serif;
+    font-size: clamp(0.6rem, 1rem, 1.2rem);
+    z-index: 9999;
+    
+  }
+  /* div {
+    z-index: -1;
+  } */
+  .heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 69%;
+  }
+  header img {
+    grid-area: logo;
+    align-self: center;
+    height: clamp(3em, 4em, 5em);
+  }
+  .heading-title {
+    font-size: 1rem;
+    height: min-content;
+    text-justify: auto;
+    font-weight: 600;
+  }
+  .heading-dept {
+    font-size: 0.8em;
+    height: min-content;
+  }
+  .heading-lib {
+    font-size: 0.7em;
+    height: min-content;
+    
+  }
+  
+  .navbar {
+    background-color: rgba(10, 1, 35, 0.933);
+    
+  }
+  .nav-link {
+    color: white;
+  }
