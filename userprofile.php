@@ -1,6 +1,6 @@
 <?php
 include("templates/header.php");
-session_start();
+
 if(isset($_SESSION['user'])){
 $un=$_SESSION['user'];}
 else{
@@ -13,6 +13,13 @@ if(isset($_GET['selected'])){
         $s='bb';
     }
 ?>
+<style>
+    .dim{
+        width: 60%;
+        height: 60%;
+        margin-left:15%;
+    }
+    </style>
 <link rel="stylesheet" href="css/adminpage.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
@@ -23,7 +30,8 @@ if(isset($_GET['selected'])){
             <div class="sidebar-header">
                 <h3>Profile</h3>
             </div>
-
+            <div> <img class="img-thumbnail rounded-circle dim" src='images/prof.jfif'>
+</div>
             <ul class="list-unstyled components">
                <!-- <p>Dummy Heading</p>-->
                 <li>
@@ -44,7 +52,7 @@ if(isset($_GET['selected'])){
                     
                 </li>
                 <li >
-                <a href="home.php" class=<?php if($s=='nb') echo "'active'"?>>Borrow Book</a>
+                <a href="bookborrow.php" class=<?php if($s=='nb') echo "'active'"?>>Borrow Book</a>
                 <!--<input  type='submit'  id='rb'  name="rb" value='Remove Book'>-->
                 </li>
                 <li > 
@@ -80,7 +88,7 @@ $(document).ready(function () {
     }
     else if($s=='bb'){
      $con=mysqli_connect("localhost","root","","lib");
-     $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un';");
+     $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un' and request_status='accepted';");
      $cntcheck=mysqli_num_rows(mysqli_query($con,"SELECT * FROM transactions WHERE req_id in ( SELECT req_id FROM request WHERE username='$un')"));
      if($cntcheck!=0){
      ?>
@@ -131,7 +139,7 @@ $(document).ready(function () {
     }
 if($s=='rb'){
     $con=mysqli_connect("localhost","root","","lib");
-    $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un';");
+    $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un' ;");
     $cnt=mysqli_num_rows($req);
     if($cnt==0){
         ?>
@@ -184,7 +192,7 @@ if($s=='rr'){
         $insert = mysqli_query($con,"INSERT INTO return_request(trans_id, return_req_date, return_req_status) VALUES ($trans_id,CURRENT_TIMESTAMP,'requested')");}
     }
     
-     $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un';");
+     $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un'and request_status='accepted';");
      $cntcheck=mysqli_num_rows(mysqli_query($con,"SELECT * FROM transactions WHERE req_id in ( SELECT req_id FROM request WHERE username='$un')"));
      if($cntcheck!=0){
      ?>

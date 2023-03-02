@@ -1,9 +1,9 @@
 
 <?php
-  session_start();
+  
   require("templates/header.php");
   echo "<h1 style='text-align: center'>Transaction Confirmation</h1>";
-  if($_SESSION['user']){
+  if(isset($_SESSION['user'])){
     $un=$_SESSION['user'];
      $bid=$_GET['b_id'];
      $con=mysqli_connect("localhost","root","","lib");
@@ -76,7 +76,7 @@
   }
   else{
     echo "<script>alert('Please login to borrow!!')</script>";
-    echo "<script>window.open('userlogin.php','_self')<script>";
+    echo "<script>window.open('userlogin.php','_self')</script>";
 
   }
  

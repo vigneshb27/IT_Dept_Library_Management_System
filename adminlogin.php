@@ -1,6 +1,8 @@
 <?php
+include "templates/header.php";
+session_destroy();
 session_start();
-include "templates/header.php";?>
+?>
 
 <head>
 	<meta charset="UTF-8">

@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,14 +41,46 @@
         <a class="nav-link" href="home.php"><i class="bi bi-house-door-fill"></i> Home</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="http://www.it.mitindia.edu/"><i class="bi bi-info-square-fill"></i> IT website</a>
+      </li>
+      <?php 
+      session_start();
+      $con=mysqli_connect("localhost","root","","lib");
+      if(isset($_SESSION['user'])){
+        ?>
+         <li class="nav-item">
+        <a class="nav-link" href="adminlogin.php"><i class="bi bi-person-rolodex"></i>Admin Login</a>
+      </li>
+         <li class="nav-item">
+        <a class="nav-link" href="userprofile.php"><i class="bi bi-people-fill"></i> <?php echo $_SESSION['user'];?></a>
+      </li>
+        <?php
+      }
+      else if(isset($_SESSION['admin'])){
+        ?>
+         <li class="nav-item">
+        <a class="nav-link" href="userlogin.php"><i class="bi bi-people-fill"></i> User Login</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="adminpage.php"><i class="bi bi-person-rolodex"></i> <?php echo $_SESSION['admin'];?></a>
+      </li>
+        <?php
+      }
+       else{
+         ?>
+         <li class="nav-item">
         <a class="nav-link" href="userlogin.php"><i class="bi bi-people-fill"></i> User Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="adminlogin.php"><i class="bi bi-person-rolodex"></i> Admin Login</a>
+        <a class="nav-link" href="adminlogin.php"><i class="bi bi-person-rolodex"></i>Admin Login</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="http://www.it.mitindia.edu/"><i class="bi bi-info-square-fill"></i> IT website</a>
-      </li>
+
+         <?php
+       }
+      ?>
+     
+     
+      
     </ul>
     
   </div>

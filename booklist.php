@@ -1,5 +1,6 @@
 
 <?php
+
 require("templates/header.php"); 
 ?>
 
@@ -54,7 +55,7 @@ $(function() {
             <div class="col-md-12">
                 
                     <div class = "structure">
-                        <h2>Search for the book of your choice!</h2>
+                        <h2>Information Technology Library</h2>
                         <!--radio button start-->
                         <input type="radio" name="demo" value="Book"/> Book name &nbsp&nbsp&nbsp
                         <input type="radio" name="demo" value="Author"/> Author name &nbsp&nbsp&nbsp
@@ -126,7 +127,7 @@ $(function() {
                                     <th>Copies</th>
                                     <th>Book Type</th>
                                     <th>Availability</th>
-                                    <th>Borrow</th>
+                                  
                                 </tr>
                             </thead>
                             <tbody>
@@ -156,9 +157,7 @@ $(function() {
                                                     <td><?= $items['available_copies']; ?></td>
                                                     <td><?= $items['rack_type']; ?></td>
                                                     <td><?= $items['availability']; ?></td>
-                                                    <?php $book_id = intval( $items['book_id']); ?>
-                                                <td><a href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></td>
-                                                </tr>
+                                               </tr>
                                                 <?php
                                             }
                                         }
@@ -197,9 +196,7 @@ $(function() {
                                     <td><?= $items['available_copies']; ?></td>
                                     <td><?= $items['rack_type']; ?></td>
                                     <td><?= $items['availability']; ?></td>
-                                    <?php $book_id = intval( $items['book_id']); ?>
-                                    <td><a href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></td>
-                                </tr>
+                                       </tr>
                                 <?php
                             }
                         }
@@ -238,8 +235,6 @@ $(function() {
                                     <td><?= $items['available_copies']; ?></td>
                                     <td><?= $items['rack_type']; ?></td>
                                     <td><?= $items['availability']; ?></td>
-                                    <?php $book_id = intval( $items['book_id']); ?>
-                                    <td><a href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></td>
                                 </tr>
                                 <?php
                             }
@@ -279,8 +274,7 @@ $(function() {
                                     <td><?= $items['available_copies']; ?></td>
                                     <td><?= $items['rack_type']; ?></td>
                                     <td><?= $items['availability']; ?></td>
-                                    <?php $book_id = intval( $items['book_id']); ?>
-                                    <td><a href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></td>
+                                   
                                 </tr>
                                 <?php
                             }

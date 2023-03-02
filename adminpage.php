@@ -1,8 +1,11 @@
 <?php
-session_start();
+
 include "templates/header.php";
 if(isset($_SESSION['admin'])){
     $admin=$_SESSION['admin'];
+    $con = mysqli_connect("localhost","root","","lib");
+    $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM book;"));
+
 }
 else{
     
@@ -13,10 +16,36 @@ else{
 if(isset($_GET['selected'])){
 $s=$_GET['selected'];}
 else{
-    $s='vb';
+    $s='db';
 }
 ?>
-
+<style>
+  
+    .borderclr{
+        border-color: rgba(10, 1, 35, 0.933);
+        border-width: 10px;
+        background-color: rgba(10, 1, 35, 0.933);
+        color: white;
+        text-align:center;
+        padding-top:10%;
+        
+    }
+    .titlecss{
+        font-size:400%;
+    }
+    .text{
+        color:white;
+    }
+    .borderclr1{
+        border-color: rgba(10, 1, 35, 0.933);
+        border-width: 5px;        
+        color: rgba(10, 1, 35, 0.933);;
+    }
+    .table-text{
+        color:white;
+    }
+    
+    </style>
 <link rel="stylesheet" href="css/adminpage.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
@@ -31,7 +60,7 @@ else{
             <ul class="list-unstyled components">
                <!-- <p>Dummy Heading</p>-->
                 <li>
-                  <a href="adminpage.php?selected=vb" class=<?php if($s=='vb') echo "'active'"?>>View Book Details</a>
+                  <a href="adminpage.php?selected=db" class=<?php if($s=='db') echo "'active'"?>>Dashboard</a>
 
                 <!--
                 <form method="post">
@@ -39,20 +68,16 @@ else{
                  -->
                 </li>
                 <li >
-                <a href="adminpage.php?selected=ab" class=<?php if($s=='ab') echo "'active'"?>>Add Book</a>
+                <a href="adminpage.php?selected=ab" class=<?php if($s=='ab') echo "'active'"?>>CRUD on Books</a>
                 <!-- <input  type='submit' id="ab"  name="ab" value=' Add Book'>-->
                 </li>
-                <li >
-                <a href="adminpage.php?selected=mb" class=<?php if($s=='mb') echo "'active'"?>>Modify Book</a>
-                <!--<input  type='submit'  id='mb'  name="mb" value='Modify Book'>-->
-                    
-                </li>
-                <li >
-                <a href="adminpage.php?selected=rb" class=<?php if($s=='rb') echo "'active'"?>>Remove Book</a>
-                <!--<input  type='submit'  id='rb'  name="rb" value='Remove Book'>-->
+
+                <li > 
+                <a href="adminpage.php?selected=mu" class=<?php if($s=='mu') echo "'active'"?>>CRUD on users</a>
+                <!--<input  type='submit' id='mu'   name="mu" value='Manage users'>-->
                 </li>
                 <li > 
-                <a href="adminpage.php?selected=mu" class=<?php if($s=='mu') echo "'active'"?>>Manage users</a>
+                <a href="adminpage.php?selected=pm" class=<?php if($s=='pm') echo "'active'"?>>Purchase Management</a>
                 <!--<input  type='submit' id='mu'   name="mu" value='Manage users'>-->
                 </li>
                 <li >
@@ -64,8 +89,11 @@ else{
                 <!--<input  type='submit' id='rm'  name="rm" value='Return Management'>-->
                 </li>
                 <form method='post'>
-                <input type='submit' value='Logout' name='logout'></form>
-</form>
+                    <a>
+                <input type='submit' value='Logout' name='logout'>
+                    </a>
+            </li>
+
             </ul>
 
             
@@ -90,7 +118,176 @@ if(isset($_POST['logout'])){
     session_destroy();
     echo "<script>window.open('adminlogin.php','_self');</script>";
 }
-if($s=='bm'){?>
+if($s=='db'){
+    ?>
+   <div class="row">
+  <div class="col-sm-4">
+    <div class="card borderclr">
+      <div class="card-body">
+        <p class="card-text text">Total number of books</p>
+        <h5 class="card-title titlecss"><?php echo $cnt ?></h5>
+         <br>
+        <a href="booklist.php" class="btn btn-primary">More..</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card borderclr">
+      <div class="card-body">
+        <h5 class="card-title">Borrow Request Pending</h5>
+        <p class="card-text">
+        
+                        <table class="table table-bordered table-text">
+                            <thead>
+                                <tr>
+                                <th>user_name</th>
+                                <th>book_id</th>
+                                
+                                </tr>
+                            </thead> <tr>
+        <?php 
+        $brw=mysqli_query($con,"SELECT * FROM request WHERE request_status='Requested'");
+        $i=0;
+        $cnt=mysqli_num_rows($brw);
+        //echo $cnt;
+        while($row=mysqli_fetch_array($brw) and $i!=5){
+            $i=$i+1;
+            ?>
+             <td><?php echo $row['username'];?></td>
+             <td><?php echo $row['book_id'];?></td>
+              
+        <?php
+           }?>
+       </tr>
+        </table></p>
+        <a href="adminpage.php?selected=bm" class="btn btn-primary">More..</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card borderclr">
+      <div class="card-body">
+        <h5 class="card-title">Purchase history</h5>
+        <p class="card-text">Adding table to dsiplay purchase history</p>
+        <a href="#" class="btn btn-primary">More...</a>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+  <br>
+<div class="row">
+  <div class="col-sm-4">
+    <div class="card borderclr">
+      <div class="card-body">
+        <h5 class="card-title">Student Donated books</h5>
+        <p class="card-text">Student books</p>
+        <a href="#" class="btn btn-primary">More..</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-4">
+    <div class="card borderclr">
+      <div class="card-body">
+        <h5 class="card-title">Widget 5</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card borderclr">
+      <div class="card-body">
+        <h5 class="card-title">Widget 6</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
+</div>
+    <?php
+   
+}
+else if($s=='ab'){
+    ?>
+         <button type="button" class="btn btn-primary btn-lg"><a href="booklist.php">View all books</a></button>
+         <button type="button" class="btn btn-success btn-lg"><a href="adminpage.php?selected=ab&opt=add">Add books</a></button>
+         <button type="button" class="btn btn-danger btn-lg"><a href="adminpage.php?selected=ab&opt=del">Remove books</a></button>
+         
+    <?php
+    if(isset($_GET['opt'])){
+        $opt=$_GET['opt'];
+        if($opt=='add'){
+            /* FORM FOR ADDDING THE BOOKS*/
+        }
+        else if($opt=='del'){
+            /* FORM FOR DELETING THE BOOK*/
+        }
+    }
+}
+else if($s=='mu'){
+    $row=mysqli_query($con,"SELECT * FROM staffusers;");
+    $staffcnt=mysqli_num_rows($row);?>
+    <div class="row">
+  <div class="col-sm-4">
+    <div class="card borderclr">
+      <div class="card-body">
+        <p class="card-text text">Total number of Users (staffs)</p>
+        <h5 class="card-title titlecss"><?php echo $staffcnt ?></h5>
+         <br>
+        
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                <th>Staff id</th>
+                                <th>Staff Name</th>
+                                <th>Designation</th>
+                                <th>Email Id</th>
+                                <th>Allowed book count</th>
+                               
+                                </tr>
+                            </thead>
+
+      <?php
+
+          while($res=mysqli_fetch_array($row)){
+?>
+          <tr>
+            <td><?php /* YET TO ADD STAFF IDS HERE*/ ?></td>
+            <td><?php echo $res['Name'];?></td>
+            <td><?php echo $res['desig'];?></td>
+            <td><?php echo $res['mail'];?></td>
+            <td><?php echo $res['max_bow_lim'];?></td>
+          </tr>
+<?php
+          }
+        
+      ?></table> 
+        <button type="button" class="btn btn-success btn-lg"><a href="adminpage.php?selected=mu&opt=add">Add Users</a></button>
+        <button type="button" class="btn btn-danger btn-lg"><a href="adminpage.php?selected=mu&opt=del">Remove Users</a></button>
+       
+    
+    <?php
+   if(isset($_GET['opt'])){
+    $opt=$_GET['opt'];
+    if($opt=='add'){
+        /* FORM FOR ADDDING THE USERS*/
+    }
+    else if($opt=='del'){
+        /* FORM FOR DELETING THE USERS*/
+    }
+}
+
+}
+
+else if($s=='bm'){?>
 
     <div class="col-md-12">
                 <div class="card mt-4">
@@ -106,11 +303,7 @@ if($s=='bm'){?>
                                 </tr>
                             </thead>
 <?php
-
-
-
-
-                        $con = mysqli_connect("localhost","root","","lib");
+                       
                     if ($con) {
 
                         if(isset($_GET["book_id"]) && isset($_GET["req_id"]) && isset($_GET["option"])){
@@ -207,8 +400,7 @@ if($s=='bm'){?>
                             </tr>
                         <?php
                     }}}                            
-if($s=='rm'){
-    ?>
+if($s=='rm'){?>
 
 <div class="col-md-12">
                 <div class="card mt-4">
@@ -346,7 +538,9 @@ if($s=='rm'){
                                 <td colspan="4">No Requests Found</td>
                             </tr>
                         <?php
-                    }}     }                       
+                    }}}
+                    
+
                                 ?>
                             </tbody>
                         </table>
@@ -355,5 +549,3 @@ if($s=='rm'){
             </div>
         </div>
     </div>
-
- 
