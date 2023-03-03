@@ -1,4 +1,5 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
@@ -19,13 +20,21 @@ a:focus {
     text-decoration: none;
     transition: all 0.3s;
 }
-input{
-    font-family: 'Poppins', sans-serif;
-    border: none;
-    min-width: 250px;
-    max-width: 250px;
-    background: rgba(10, 1, 35, 0.933); 
-    color:#fff;
+input[type=text], input[type=number], input[type=password], input[type=email]{
+    width: 50%;
+}
+label{
+    text-align: center;
+}
+
+select{
+    max-width: 50% !important;
+}
+
+.form-control:focus, .form-select:focus{
+    border-color: rgba(10, 1, 35, 0.933);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+
 }
 
 /* ---------------------------------------------------
@@ -52,7 +61,7 @@ input{
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: rgba(10, 1, 35, 0.933);
+    
 }
 
 #sidebar ul.components {
@@ -77,13 +86,14 @@ input{
 }
 
 #sidebar ul li a:hover {
-    color: rgba(10, 1, 35, 0.933);
-    background: #fff;
+    background: rgba(10, 1, 35, 0.933);
+    color: #fff;
+
 }
 
 #sidebar ul li a.active{
-    color: rgba(10, 1, 35, 0.933);
-    background-color:#fff;
+    background: rgba(10, 1, 35, 0.933);
+    color: #fff;
 }
 
 .dropdown-toggle::after {
@@ -110,6 +120,83 @@ ul.CTAs a {
     display: block;
     border-radius: 5px;
     margin-bottom: 5px;
+}
+
+
+.logout{
+    text-align: center;
+}
+
+#logout{
+    background-color: rgba(10, 1, 35, 0.933);
+    color: white;
+    border: none;
+}
+
+.design-icon-student{
+    color: rgb(8, 209, 240);
+    font-size: 2.5em;
+}
+
+.design-icon-wallet{
+    color: rgb(240, 8, 132);
+    font-size: 2.5em;
+}
+
+.design-icon-book{
+    color: rgb(8, 240, 85);
+    font-size: 2.5em;
+}
+
+.design-icon-request{
+    color: rgb(243, 163, 15);
+    font-size: 2.5em;
+}
+
+.head-button-add{
+    border: none;
+    background-color: white;
+    font-size: large;
+    border-bottom: 5px solid rgba(10, 1, 35, 0.933);
+}
+
+.head-button-view{
+    border: none;
+    background-color: white;
+    font-size: large;
+    border-bottom: 5px solid rgba(10, 1, 35, 0.933);
+}
+
+.head-button-remove{
+    border: none;
+    background-color: white;
+    font-size: large;
+    border-bottom: 5px solid rgba(10, 1, 35, 0.933);
+}
+
+#form-submit{
+    width: 20%;
+    margin: auto;
+    background-color: rgba(10, 1, 35, 0.933);
+    color: #fff;
+}
+
+.form-submit{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    display: block;
+    
+    justify-content:center ;
+}
+
+.admin-img{
+    text-align: center;
+    width: 50%;
+    height: 85%;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  
 }
 
 /* ---------------------------------------------------

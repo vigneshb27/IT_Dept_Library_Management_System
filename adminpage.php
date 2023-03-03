@@ -22,8 +22,7 @@ else{
 <style>
   
     .borderclr{
-        border-color: rgba(10, 1, 35, 0.933);
-        border-width: 10px;
+       
         background-color: rgba(10, 1, 35, 0.933);
         color: white;
         text-align:center;
@@ -46,6 +45,7 @@ else{
     }
     
     </style>
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
 <link rel="stylesheet" href="css/adminpage.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
@@ -88,9 +88,10 @@ else{
                 <a href="adminpage.php?selected=rm" class=<?php if($s=='rm') echo "'active'"?>>Return Management</a>
                 <!--<input  type='submit' id='rm'  name="rm" value='Return Management'>-->
                 </li>
+                <br>
                 <form method='post'>
                     <a>
-                <input type='submit' value='Logout' name='logout'>
+                <div class="logout"><button type='submit' id="logout" name='logout'><i class="bi bi-box-arrow-right"></i> Logout</button></div>
                     </a>
             </li>
 
@@ -124,6 +125,7 @@ if($s=='db'){
   <div class="col-sm-4">
     <div class="card borderclr">
       <div class="card-body">
+      <i class="icon-book-open design-icon-book"></i><br><br>
         <p class="card-text text">Total number of books</p>
         <h5 class="card-title titlecss"><?php echo $cnt ?></h5>
          <br>
@@ -134,6 +136,7 @@ if($s=='db'){
   <div class="col-sm-4">
     <div class="card borderclr">
       <div class="card-body">
+      <i class="icon-bubbles design-icon-request"></i><br><br>
         <h5 class="card-title">Borrow Request Pending</h5>
         <p class="card-text">
         
@@ -167,6 +170,7 @@ if($s=='db'){
   <div class="col-sm-4">
     <div class="card borderclr">
       <div class="card-body">
+      <i class="icon-wallet design-icon-wallet"></i><br><br>
         <h5 class="card-title">Purchase history</h5>
         <p class="card-text">Adding table to dsiplay purchase history</p>
         <a href="#" class="btn btn-primary">More...</a>
@@ -180,6 +184,7 @@ if($s=='db'){
   <div class="col-sm-4">
     <div class="card borderclr">
       <div class="card-body">
+      <i class="icon-user design-icon-student"></i><br><br>
         <h5 class="card-title">Student Donated books</h5>
         <p class="card-text">Student books</p>
         <a href="#" class="btn btn-primary">More..</a>
@@ -211,34 +216,180 @@ if($s=='db'){
 }
 else if($s=='ab'){
     ?>
-         <button type="button" class="btn btn-primary btn-lg"><a href="booklist.php">View all books</a></button>
-         <button type="button" class="btn btn-success btn-lg"><a href="adminpage.php?selected=ab&opt=add">Add books</a></button>
-         <button type="button" class="btn btn-danger btn-lg"><a href="adminpage.php?selected=ab&opt=del">Remove books</a></button>
-         
+         <button type="button" class = "head-button-view"><a href="booklist.php">View all books</a></button>&nbsp;&nbsp;&nbsp;
+         <button type="button" class = "head-button-add"><a href="adminpage.php?selected=ab&opt=add">Add books</a></button>&nbsp;&nbsp;&nbsp;
+         <button type="button" class = "head-button-remove"><a href="adminpage.php?selected=ab&opt=del">Remove books</a></button>
+         <br><br>
     <?php
     if(isset($_GET['opt'])){
         $opt=$_GET['opt'];
-        if($opt=='add'){
+        if($opt=='add'){ 
             /* FORM FOR ADDDING THE BOOKS*/
-        }
+            ?>
+            <div class="container h-100">
+                <div class="row h-100 justify-content-center align-items-center">
+                    
+                        
+                <form id="add-book" method="post">
+                    
+                    <label for="bid">Book ID :</label>
+                    <input type="text" name="bid"  id="bid" class="form-control" required>
+    
+                    <br><br>
+                    <label for="bname">Book Name :</label>
+                    <input type="text" name="bname"  id="bname" class="form-control" required>
+                    <br><br>
+        <label for="a1">Author 1 </label>
+        <select name="a1"  id="a1" class = "form-select" required>
+        <option value="">
+                    
+                </option>
+            <?php
+            $con = mysqli_connect("localhost","root","","lib");
+     
+  
+    $sql = "SELECT * FROM author";
+    $all_categories = mysqli_query($con,$sql);
+                while ($a1 = mysqli_fetch_array(
+                        $all_categories,MYSQLI_ASSOC)):;
+            ?>
+                <option value="<?php echo $a1["name"];
+                ?>">
+                    <?php echo $a1["name"];
+                        // To show the category name to the user
+                    ?>
+                </option>
+                <?php
+                endwhile;
+                // While loop must be terminated
+            ?>
+        </select>
+	  <br><br>
+      <label for="s2"> Author 2 </label>
+        <select name="a2"  id="a2" class = "form-select" >
+        <option value="">
+                    
+                    </option>
+            <?php
+            $con = mysqli_connect("localhost","root","","lib");
+     
+  
+    $sql = "SELECT * FROM author";
+    $all_categories = mysqli_query($con,$sql);
+                while ($a2= mysqli_fetch_array(
+                        $all_categories,MYSQLI_ASSOC)):;
+            ?>
+                <option value="<?php echo $a2["name"];
+                ?>">
+                    <?php echo $a2["name"];
+                        // To show the category name to the user
+                    ?>
+                </option>
+                <?php
+                endwhile;
+                // While loop must be terminated
+            ?>
+        </select>
+	  <br><br>
+      <label for="a3">Author 3 </label>
+        <select name="a3" id= "a3" class = "form-select" >
+        <option value="">
+                    
+                    </option>
+            <?php
+            $con = mysqli_connect("localhost","root","","lib");
+     
+  
+    $sql = "SELECT * FROM author";
+    $all_categories = mysqli_query($con,$sql);
+                while ($a3 = mysqli_fetch_array(
+                        $all_categories,MYSQLI_ASSOC)):;
+            ?>
+                <option value="<?php echo $a3["name"];
+                ?>">
+                    <?php echo $a3["name"];
+                        // To show the category name to the user
+                    ?>
+                </option>
+                <?php
+                endwhile;
+                // While loop must be terminated
+            ?>
+        </select>
+	  <br><br>
+      <label for="pid">Publisher ID </label>
+	  <input type="number" name="pid"  id="pid" class="form-control" required>
+	  <br><br>
+      <label for="pyear">Published Year </label>
+      <input type="text" name="pyear" id="pyear" class="form-control" required>
+	  <br><br>
+      <label for="ed">Edition </label>
+	  <input type="number" name="ed" id="ed" class="form-control" required>
+	  <br><br>
+      <label for="copies">No of Copies </label>
+	  <input type="number" name="copies" id="copies" class="form-control" required>
+	  <br><br>
+      <label for="rack">Rack ID</label>
+      <input type="number" name="rack"  id="rack" class="form-control" required>
+	  <br><br>
+      <label for="av">Availability </label>
+	  <input type="text" name="av" id="av" class="form-control" required>
+	  <br><br>
+      <label for="avc">Available Copies </label>
+	  <input type="number" name="avc" id="avc" class="form-control" required>
+	  <br><br><br>
+	  <div class="form-submit"><input type="submit" value="Submit"  id="form-submit" class="form-control"></div>
+	  <!--</center><a href="userlogin.html">Click to Login</a>-->
+</div>
+            </div>  
+            </div>
+</form>
+       <?php }
         else if($opt=='del'){
             /* FORM FOR DELETING THE BOOK*/
+            ?>
+            <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    
+                        <br><br>
+                <form id="remove-book" method="post">
+                    
+                    <label for="bid">Book ID :</label>
+                    <input type="text" name="bid"  id="bid" class="form-control" required>
+    
+                    <br><br><br>
+                    <div class="form-submit"><input type="submit" value="Submit"  id="form-submit" class="form-control"></div>
+        </form>
+                    </div></div>
+
+            <?php
+            
         }
+        
     }
+    else {
+        /*Image to show if none of the option is selected for crud books*/
+        ?>
+        <img src="images/admin.png" alt="helo" class = "admin-img">
+        <?php
+        }
 }
 else if($s=='mu'){
     $row=mysqli_query($con,"SELECT * FROM staffusers;");
     $staffcnt=mysqli_num_rows($row);?>
     <div class="row">
+    <div class="h-100 d-flex align-items-center justify-content-center">
   <div class="col-sm-4">
     <div class="card borderclr">
       <div class="card-body">
+      <i class="icon-user design-icon-student"></i><br><br>
         <p class="card-text text">Total number of Users (staffs)</p>
         <h5 class="card-title titlecss"><?php echo $staffcnt ?></h5>
          <br>
         
       </div>
     </div>
+  </div>
   </div>
   <div class="col-md-12">
                 <div class="card mt-4">
@@ -270,18 +421,62 @@ else if($s=='mu'){
           }
         
       ?></table> 
-        <button type="button" class="btn btn-success btn-lg"><a href="adminpage.php?selected=mu&opt=add">Add Users</a></button>
-        <button type="button" class="btn btn-danger btn-lg"><a href="adminpage.php?selected=mu&opt=del">Remove Users</a></button>
+        <button type="button" class="head-button-add"><a href="adminpage.php?selected=mu&opt=add">Add Users</a></button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="button" class="head-button-remove"><a href="adminpage.php?selected=mu&opt=del">Remove Users</a></button>
        
     
     <?php
    if(isset($_GET['opt'])){
     $opt=$_GET['opt'];
-    if($opt=='add'){
+    if($opt=='add'){ 
         /* FORM FOR ADDDING THE USERS*/
-    }
+        ?>
+        <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    
+                        <br>
+                <form id="add-user" method="post">
+                    <label for="name">Name</label>
+                    <input type="text" name="name"  id="name" class="form-control" required>
+                    <br><br>
+                    <label for="desig">Designation</label>
+                    <select name="desig"  id="desig" class = "form-select" required>
+                    <option value="Professor">Professor</option>
+                    <option value="Associate Professor">Associate Professor</option>
+                    <option value="Assistant Professor [Sl Grade]">Assistant Professor [Sl Grade]</option>
+                    <option value="Assistant Professor [Sr. Grade]">Assistant Professor [Sr. Grade]</option>
+                    <option value="Teaching Fellow">Teaching Fellow</option>
+                    <option value="Professional Assistant - I">Professional Assistant - I</option>
+                    <option value="Professional Assistant - II">Professional Assistant - II</option>
+                    </select>
+                    <br><br>
+                    <label for="email">Email</label>
+                    <input type="email" name="email"  id="email" class="form-control" required>
+                    <br><br>
+                    <label for="pass">Password</label>
+                    <input type="password" name="pass"  id="pass" class="form-control" required>
+                    <br><br>
+
+                    <div class="form-submit"><input type="submit" value="Submit"  id="form-submit" class="form-control"></div>
+        </form>
+        
+        
+
+    <?php }
     else if($opt=='del'){
         /* FORM FOR DELETING THE USERS*/
+        ?>
+        <div class="container">
+                <div class="row justify-content-center align-items-center">
+                    
+                        <br>
+                <form id="remove-user" method="post">
+                    <label for="id">User ID</label>
+                    <input type="text" name="id"  id="id" class="form-control" required>
+                    <br><br>
+                    <div class="form-submit"><input type="submit" value="Submit"  id="form-submit" class="form-control"></div>
+        </form>
+        <?php
     }
 }
 
