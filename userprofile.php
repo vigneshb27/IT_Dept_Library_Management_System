@@ -30,8 +30,9 @@ if(isset($_GET['selected'])){
             <div class="sidebar-header">
                 <h3>Profile</h3>
             </div>
+            <!-- IMAGE include*/
             <div> <img class="img-thumbnail rounded-circle dim" src='images/prof.jfif'>
-</div>
+</div>-->
             <ul class="list-unstyled components">
                <!-- <p>Dummy Heading</p>-->
                 <li>
@@ -61,9 +62,7 @@ if(isset($_GET['selected'])){
                 
                 <!--<input  type='submit' id='mu'   name="mu" value='Manage users'>-->
                 </li>
-                <li >
-                
-</form>
+                <l
             </ul>
 
             

@@ -91,7 +91,7 @@ else{
                 <br>
                 <form method='post'>
                     <a>
-                <div class="logout"><button type='submit' id="logout" name='logout'><i class="bi bi-box-arrow-right"></i> Logout</button></div>
+                <div class="logout"><a href='adminlogin.php'><i class="bi bi-box-arrow-right"></i> Logout</a></div>
                     </a>
             </li>
 
@@ -232,113 +232,144 @@ else if($s=='ab'){
                         
                 <form id="add-book" method="post">
                     
-                    <label for="bid">Book ID :</label>
-                    <input type="text" name="bid"  id="bid" class="form-control" required>
+                    
     
                     <br><br>
                     <label for="bname">Book Name :</label>
                     <input type="text" name="bname"  id="bname" class="form-control" required>
                     <br><br>
         <label for="a1">Author 1 </label>
-        <select name="a1"  id="a1" class = "form-select" required>
-        <option value="">
-                    
-                </option>
-            <?php
-            $con = mysqli_connect("localhost","root","","lib");
-     
-  
-    $sql = "SELECT * FROM author";
-    $all_categories = mysqli_query($con,$sql);
-                while ($a1 = mysqli_fetch_array(
-                        $all_categories,MYSQLI_ASSOC)):;
-            ?>
-                <option value="<?php echo $a1["name"];
-                ?>">
-                    <?php echo $a1["name"];
-                        // To show the category name to the user
-                    ?>
-                </option>
-                <?php
-                endwhile;
-                // While loop must be terminated
-            ?>
-        </select>
+        <input type="text" name="a1"  id="a1" class="form-control" required>
 	  <br><br>
       <label for="s2"> Author 2 </label>
-        <select name="a2"  id="a2" class = "form-select" >
-        <option value="">
-                    
-                    </option>
-            <?php
-            $con = mysqli_connect("localhost","root","","lib");
-     
-  
-    $sql = "SELECT * FROM author";
-    $all_categories = mysqli_query($con,$sql);
-                while ($a2= mysqli_fetch_array(
-                        $all_categories,MYSQLI_ASSOC)):;
-            ?>
-                <option value="<?php echo $a2["name"];
-                ?>">
-                    <?php echo $a2["name"];
-                        // To show the category name to the user
-                    ?>
-                </option>
-                <?php
-                endwhile;
-                // While loop must be terminated
-            ?>
-        </select>
+      <input type="text" name="a2"  id="a2" class="form-control" required>
 	  <br><br>
       <label for="a3">Author 3 </label>
-        <select name="a3" id= "a3" class = "form-select" >
-        <option value="">
-                    
-                    </option>
-            <?php
-            $con = mysqli_connect("localhost","root","","lib");
-     
-  
-    $sql = "SELECT * FROM author";
-    $all_categories = mysqli_query($con,$sql);
-                while ($a3 = mysqli_fetch_array(
-                        $all_categories,MYSQLI_ASSOC)):;
-            ?>
-                <option value="<?php echo $a3["name"];
-                ?>">
-                    <?php echo $a3["name"];
-                        // To show the category name to the user
-                    ?>
-                </option>
-                <?php
-                endwhile;
-                // While loop must be terminated
-            ?>
-        </select>
+      <input type="text" name="a3"  id="a3" class="form-control" required>
 	  <br><br>
-      <label for="pid">Publisher ID </label>
-	  <input type="number" name="pid"  id="pid" class="form-control" required>
+      <label for="pname">Publisher Name </label>
+	  <input type="text" name="pname"  id="pname" class="form-control" required>
 	  <br><br>
       <label for="pyear">Published Year </label>
       <input type="text" name="pyear" id="pyear" class="form-control" required>
 	  <br><br>
       <label for="ed">Edition </label>
-	  <input type="number" name="ed" id="ed" class="form-control" required>
+	  <input type="text" name="ed" id="ed" class="form-control" required>
 	  <br><br>
       <label for="copies">No of Copies </label>
 	  <input type="number" name="copies" id="copies" class="form-control" required>
 	  <br><br>
-      <label for="rack">Rack ID</label>
-      <input type="number" name="rack"  id="rack" class="form-control" required>
+      <label for="rack">Rack Type</label>
+      <select name="rck" id= "rck" class = "form-select"  required>
+        
+            <?php
+            $con = mysqli_connect("localhost","root","","lib");
+     
+  
+    $sql = "SELECT * FROM rack";
+    $all_categories = mysqli_query($con,$sql);
+                while ($a3 = mysqli_fetch_array(
+                        $all_categories,MYSQLI_ASSOC)):;
+            ?>
+                <option value="<?php echo $a3["rack_type"];
+                ?>">
+                    <?php echo $a3["rack_type"];
+                        // To show the category name to the user
+                    ?>
+                </option>
+                <?php
+                endwhile;
+                // While loop must be terminated
+            ?>
+        </select>
 	  <br><br>
-      <label for="av">Availability </label>
-	  <input type="text" name="av" id="av" class="form-control" required>
-	  <br><br>
-      <label for="avc">Available Copies </label>
-	  <input type="number" name="avc" id="avc" class="form-control" required>
+     
 	  <br><br><br>
-	  <div class="form-submit"><input type="submit" value="Submit"  id="form-submit" class="form-control"></div>
+	  <div class="form-submit"><input type="submit" value="Submit" name="addbook" id="form-submit" class="form-control"></div>
+      <?php
+       if(isset($_POST['addbook'])){
+              $con=mysqli_connect("localhost","root","","lib");
+              $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM book;"));
+              $bookid=20000+$cnt+1;
+              $bname=$_POST['bname'];
+              $a1=$_POST['a1'];
+              $a2=$_POST['a2'];
+              $a3=$_POST['a3'];
+              $pname=$_POST['pname'];
+              $pr=$_POST['pyear'];
+              $ed=$_POST['ed'];
+              $cp=$_POST['copies'];
+              $rck=$_POST['rck'];
+              $cq=mysqli_query($con,"SELECT * FROM author WHERE name='$a1';");
+              $cr=mysqli_fetch_array($cq);
+              $c1=mysqli_num_rows($cq);
+              $aid1=NULL;
+              if($c1==0){
+                //echo "A1 not found";
+                /*INSERT INTO AUTHOR TABLE*/
+                $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM author;"));
+                $aid1=30000+$cnt+1;
+            
+                $ins=mysqli_query($con,"INSERT INTO author VALUES($aid1,'$a1');");
+              }
+              else{
+                 $aid1=$cr['author_id'];
+              }
+              $cq=mysqli_query($con,"SELECT * FROM author WHERE name='$a2';");
+              $cr=mysqli_fetch_array($cq);
+              $c1=mysqli_num_rows($cq);
+              $aid2=NULL;
+              if($c1==0){
+                //echo "A2 not found";
+                /* Insert author in author table*/
+                $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM author;"));
+                $aid2=30000+$cnt+1;
+                $ins=mysqli_query($con,"INSERT INTO author VALUES($aid2,'$a2');");
+              }
+              else{
+                 $aid2=$cr['author_id'];
+              }
+              $cq=mysqli_query($con,"SELECT * FROM author WHERE name='$a3';");
+              $cr=mysqli_fetch_array($cq);
+              $c1=mysqli_num_rows($cq);
+              $aid3=NULL;
+              if($c1==0){
+                //echo "A3 not found";
+                /* Insert author in author table*/
+                $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM author;"));
+                $aid3=30000+$cnt+1;
+                $ins= mysqli_query($con,"INSERT INTO author VALUES($aid3,'$a3');");
+              }
+              else{
+                 $aid3=$cr['author_id'];
+              }
+              $pid=NULL;
+              $cq=mysqli_query($con,"SELECT * FROM publisher WHERE publisher_name='$pname';");
+              $cr=mysqli_fetch_array($cq);
+              $c1=mysqli_num_rows($cq);
+              if($c1==0){
+                //echo "Publisher  not found";
+                /* Insert author in author table*/
+                $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM publisher;"));
+                $pid=40000+$cnt+1;
+                $ins=mysqli_query($con,"INSERT INTO publisher VALUES($pid,'$pname');");
+              }
+              else{
+                 $pid=$cr['publisher_id'];
+              }
+              $rid=NULL;
+              $cr=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM rack WHERE rack_type='$rck';"));
+              $rid=$cr['rack_id'];
+              echo $rid;
+              echo $aid1;
+              echo $aid2;
+              echo $aid3;
+              echo $pid;
+              $rup=mysqli_query($con,"UPDATE rack SET book_count=book_count+1 WHERE rack_id=$rid;");
+              $res=mysqli_query($con,"INSERT INTO book VALUES($bookid,'$bname',$aid1,$aid2,$aid3,$pid,$pr,'$ed',$cp,$rid,'available',$cp);");
+              /*Insert book and change the rack book count*/
+       }
+      ?>
 	  <!--</center><a href="userlogin.html">Click to Login</a>-->
 </div>
             </div>  
@@ -358,12 +389,19 @@ else if($s=='ab'){
                     <input type="text" name="bid"  id="bid" class="form-control" required>
     
                     <br><br><br>
-                    <div class="form-submit"><input type="submit" value="Submit"  id="form-submit" class="form-control"></div>
-        </form>
+                    <div class="form-submit"><input type="submit" value="Submit" name="delete"  id="form-submit" class="form-control"></div>
+        
                     </div></div>
 
             <?php
-            
+          if(isset($_POST['delete'])){
+            $bid=$_POST['bid'];
+            $rckq=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id=$bid;"));
+            $rckid=$rckq['rack_id'];
+            $rp=mysqli_query($con,"DELETE FROM book WHERE book_id=$bid;");
+            $rup=mysqli_query($con,"UPDATE rack SET book_count=book_count-1 WHERE rack_id=$rckid;");
+            echo "Deleted Successfully";
+          }            
         }
         
     }
@@ -376,7 +414,7 @@ else if($s=='ab'){
 }
 else if($s=='mu'){
     $row=mysqli_query($con,"SELECT * FROM staffusers;");
-    $staffcnt=mysqli_num_rows($row);?>
+    $staffcnt=mysqli_num_rows($row);?></form>
     <div class="row">
     <div class="h-100 d-flex align-items-center justify-content-center">
   <div class="col-sm-4">
@@ -436,6 +474,9 @@ else if($s=='mu'){
                     
                         <br>
                 <form id="add-user" method="post">
+                    <label for="stfid">Staff Id</label>
+                    <input type="text" name="stfid"  id="stfid" class="form-control" required>
+                    <br><br>
                     <label for="name">Name</label>
                     <input type="text" name="name"  id="name" class="form-control" required>
                     <br><br>
@@ -457,12 +498,18 @@ else if($s=='mu'){
                     <input type="password" name="pass"  id="pass" class="form-control" required>
                     <br><br>
 
-                    <div class="form-submit"><input type="submit" value="Submit"  id="form-submit" class="form-control"></div>
+                    <div class="form-submit"><input type="submit" value="Submit" name="adduser" id="form-submit" class="form-control"></div>
         </form>
-        
-        
-
-    <?php }
+    <?php 
+    if(isset($_POST['adduser'])){
+          $id=$_POST['stfid'];
+          $name=$_POST['name'];
+          $des=$_POST['desig'];
+          $em=$_POST['email'];
+          $pwd=$_POST['pass'];
+          $ins=mysqli_query($con,"INSERT INTO staffusers VALUES('$name','$des','$em','$pwd',4);");
+    }
+    }
     else if($opt=='del'){
         /* FORM FOR DELETING THE USERS*/
         ?>
@@ -474,9 +521,13 @@ else if($s=='mu'){
                     <label for="id">User ID</label>
                     <input type="text" name="id"  id="id" class="form-control" required>
                     <br><br>
-                    <div class="form-submit"><input type="submit" value="Submit"  id="form-submit" class="form-control"></div>
+                    <div class="form-submit"><input type="submit" value="Submit" name='deluser' id="form-submit" class="form-control"></div>
         </form>
         <?php
+        if(isset($_POST['deluser'])){
+             $id=$_POST['id'];
+             $del=mysqli_query($con,"DELETE FROM staffusers WHERE staffid=$id;");
+        }
     }
 }
 
