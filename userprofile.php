@@ -58,11 +58,12 @@ if(isset($_GET['selected'])){
                 </li>
                 <li > 
                 <form method='post'>
-                <input type='submit' value='Logout' name='logout'></form>
-                
+                    <a>
+                <div class="logout"><a href='userlogin.php'><i class="bi bi-box-arrow-right"></i> Logout</a></div>
+                    </a>
                 <!--<input  type='submit' id='mu'   name="mu" value='Manage users'>-->
                 </li>
-                <l
+                
             </ul>
 
             

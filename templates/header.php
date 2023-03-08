@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans">
+    
+      
 </head>
 <body>
     <div class="entire">
@@ -32,7 +34,7 @@
 </header>
         <nav class="navbar sticky-top navbar-expand-lg navbar-dark">
   
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse justify-content-center" id="navbarText">
@@ -49,7 +51,7 @@
       if(isset($_SESSION['user'])){
         ?>
          <li class="nav-item">
-        <a class="nav-link" href="adminlogin.php"><i class="bi bi-person-rolodex"></i>Admin Login</a>
+        <a class="nav-link" href="adminlogin.php"><i class="bi bi-person-rolodex"></i> Admin Login</a>
       </li>
          <li class="nav-item">
         <a class="nav-link" href="userprofile.php"><i class="bi bi-people-fill"></i> <?php echo $_SESSION['user'];?></a>
@@ -72,7 +74,7 @@
         <a class="nav-link" href="userlogin.php"><i class="bi bi-people-fill"></i> User Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="adminlogin.php"><i class="bi bi-person-rolodex"></i>Admin Login</a>
+        <a class="nav-link" href="adminlogin.php"><i class="bi bi-person-rolodex"></i> Admin Login</a>
       </li>
 
          <?php
