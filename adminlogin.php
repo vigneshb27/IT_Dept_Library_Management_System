@@ -1,7 +1,7 @@
 <?php
-include "templates/header.php";
-session_destroy();
 session_start();
+session_destroy();
+include "templates/header.php";
 ?>
 
 <head>
@@ -33,7 +33,7 @@ session_start();
 					<div class="row">
 						<form method="post" class="form-group">
 							<div class="row">
-								<input type="email" name="username" id="username" class="form__input" placeholder="Username" required>
+								<input type="text" name="username" id="username" class="form__input" placeholder="Username" required>
 							</div>
 							<div class="row">
 							    <div >
@@ -79,7 +79,7 @@ if(isset($_POST['submit'])){
 $un=$_POST['username'];
 $pwd=$_POST['password'];
 $con=mysqli_connect("localhost","root","","lib");
-$res=mysqli_query($con,"SELECT * FROM admin WHERE username='$un' and password='$pwd';");
+$res=mysqli_query($con,"SELECT * FROM admin WHERE staffid='$un' and password='$pwd';");
 $cnt=mysqli_num_rows($res);
 echo $cnt;
 if($cnt==0){

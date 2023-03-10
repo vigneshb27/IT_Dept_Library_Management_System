@@ -189,7 +189,9 @@ if($s=='rr'){
         $trans_id = $_GET["trans_id"];
    
         
-        $insert = mysqli_query($con,"INSERT INTO return_request(trans_id, return_req_date, return_req_status) VALUES ($trans_id,CURRENT_TIMESTAMP,'requested')");}
+        $insert = mysqli_query($con,"INSERT INTO return_request(trans_id, return_req_date, return_req_status) VALUES ($trans_id,CURRENT_TIMESTAMP,'requested')");
+        mysqli_query($con,"UPDATE transactions SET return_status='requested' WHERE trans_id=$trans_id;");
+    }
     }
     
      $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un'and request_status='accepted';");
@@ -213,12 +215,14 @@ if($s=='rr'){
                             </thead>
 <?php
      while($res=mysqli_fetch_array($req)){
+        
         $rid=$res['req_id'];
+        //echo $rid;
         $bid=$res['book_id'];
-        $tn=mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid;");
         $trans=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid;"));
+        $tn=mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid;");
         $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id=$bid;"));
-            
+        if($trans['return_status']=="not return"){            
         ?>
            
         <tr>
@@ -233,7 +237,7 @@ if($s=='rr'){
         <?php
         
 
-     }
+     }}
     }
     else{?>
     <p>No books in hand!!</p>

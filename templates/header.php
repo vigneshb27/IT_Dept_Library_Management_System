@@ -49,22 +49,26 @@
       session_start();
       $con=mysqli_connect("localhost","root","","lib");
       if(isset($_SESSION['user'])){
+        $id=$_SESSION['user'];
+        $res=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$id';"));
         ?>
          <li class="nav-item">
         <a class="nav-link" href="adminlogin.php"><i class="bi bi-person-rolodex"></i> Admin Login</a>
       </li>
          <li class="nav-item">
-        <a class="nav-link" href="userprofile.php"><i class="bi bi-people-fill"></i> <?php echo $_SESSION['user'];?></a>
+        <a class="nav-link" href="userprofile.php"><i class="bi bi-people-fill"></i> <?php echo $res['Name'];?></a>
       </li>
         <?php
       }
       else if(isset($_SESSION['admin'])){
+        $id=$_SESSION['admin'];
+        $res=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$id';"));
         ?>
          <li class="nav-item">
         <a class="nav-link" href="userlogin.php"><i class="bi bi-people-fill"></i> User Login</a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link" href="adminpage.php"><i class="bi bi-person-rolodex"></i> <?php echo $_SESSION['admin'];?></a>
+        <a class="nav-link" href="adminpage.php"><i class="bi bi-person-rolodex"></i> <?php echo  $res['Name'];?></a>
       </li>
         <?php
       }

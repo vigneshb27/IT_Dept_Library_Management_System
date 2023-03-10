@@ -449,7 +449,7 @@ else if($s=='mu'){
           while($res=mysqli_fetch_array($row)){
 ?>
           <tr>
-            <td><?php /* YET TO ADD STAFF IDS HERE*/ ?></td>
+            <td><?php echo $res['staffid'] ?></td>
             <td><?php echo $res['Name'];?></td>
             <td><?php echo $res['desig'];?></td>
             <td><?php echo $res['mail'];?></td>
