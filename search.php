@@ -1,5 +1,11 @@
 
 <?php
+if(isset($_SESSION['user']) || isset($_SESSION['admin'])){
+    }
+    else{
+        echo "<script>alert('Please login to continue!!')</script>";
+        echo "<script>window.open('home.php','_self')</script>";
+    }
 require("templates/header.php"); 
 ?>
 
@@ -157,7 +163,7 @@ $(function() {
                                                     <td><?= $items['rack_type']; ?></td>
                                                     <td><?= $items['availability']; ?></td>
                                                     <?php $book_id = intval( $items['book_id']); ?>
-                                                <td><button class='btn btn-success'><a style='text-decoration:None;color:white;' href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></button></td>
+                                                <td><a href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></td>
                                                 </tr>
                                                 <?php
                                             }
@@ -198,7 +204,7 @@ $(function() {
                                     <td><?= $items['rack_type']; ?></td>
                                     <td><?= $items['availability']; ?></td>
                                     <?php $book_id = intval( $items['book_id']); ?>
-                                    <td><button class='btn btn-success'><a style='text-decoration:None;color:white;'href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></button></td>
+                                    <td><a href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></td>
                                 </tr>
                                 <?php
                             }
@@ -239,7 +245,7 @@ $(function() {
                                     <td><?= $items['rack_type']; ?></td>
                                     <td><?= $items['availability']; ?></td>
                                     <?php $book_id = intval( $items['book_id']); ?>
-                                    <td><button class='btn btn-success'><a style='text-decoration:None;color:white;' href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></button></td>
+                                    <td><a href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></td>
                                 </tr>
                                 <?php
                             }
@@ -280,7 +286,7 @@ $(function() {
                                     <td><?= $items['rack_type']; ?></td>
                                     <td><?= $items['availability']; ?></td>
                                     <?php $book_id = intval( $items['book_id']); ?>
-                                    <td><button class='btn btn-success'><a style='text-decoration:None;color:white;'href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></button></td>
+                                    <td><a href="userborrow.php? b_id=<?php echo $book_id; ?>" >Borrow</a></td>
                                 </tr>
                                 <?php
                             }
