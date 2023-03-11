@@ -69,7 +69,7 @@
         echo "<p style='color:green'>Your request was submitted successfully to the admin.</p>";
         }
         if(isset($_POST['can'])){
-            echo "<script>window.open('home.php','_self')</script>";
+            echo "<script>window.open('search.php','_self')</script>";
         }
     }
     }
