@@ -10,7 +10,7 @@ require("templates/header.php");
 
 
 </style>
-<link rel="stylesheet" href="css/search.css">
+<link rel="stylesheet" href="css/home.css">
 <script>
 $(document).ready(function(){
     $('input[type="radio"]').click(function(){

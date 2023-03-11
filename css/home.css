@@ -1,19 +1,35 @@
-body,html{
-    height: 100%;
+.structure {
+    margin-top: 7%;
+    text-align: center;
 }
 
-body{
-    background-color: rgba(10, 1, 35, 0.933);
-    color: white;
-}
-body h1{
-    font-family: 'Alfa Slab One', cursive;
-}
-
-body p{
-    font-family: 'Golos Text', sans-serif;
+.input_display{
+    margin-top: 4%;
+    width : 50%;
+    margin-left: 25%;
+    justify-content: center;
+    text-align: center;
 }
 
 .btn-primary{
     background-color: rgba(10, 1, 35, 0.933);
+}
+
+input:focus{
+    border-color: rgba(10, 1, 35, 0.933);
+}
+
+.form-control:focus{
+    border-color: rgba(10, 1, 35, 0.933);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
+
+}
+
+input[type = radio] {
+    accent-color: rgba(10, 1, 35, 0.933);
+}
+
+thead{
+    background-color: rgba(10, 1, 35, 0.933);
+    color: white;
 }
