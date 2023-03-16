@@ -97,7 +97,31 @@ $(function() {
                                 <strong>Search by Book type :</strong><br><br>
                                 <form action="" method="GET">
                                     <div class="input-group mb-3">
-                                        <input type="text" name="search_by_type" required value="<?php if(isset($_GET["search_by_type"])){echo $_GET["search_by_type"]; } ?>" class="form-control" placeholder="Search data">&nbsp
+                                        <select name="search_by_type">
+                                            
+            <?php
+            $con = mysqli_connect("localhost","root","","lib");
+     
+  
+    $sql = "SELECT * FROM rack";
+    $all_categories = mysqli_query($con,$sql);
+                while ($a3 = mysqli_fetch_array(
+                        $all_categories,MYSQLI_ASSOC)):;
+            ?>
+                <option value="<?php echo $a3["rack_type"];
+                ?>">
+                    <?php echo $a3["rack_type"];
+                        // To show the category name to the user
+                    ?>
+                </option>
+                <?php
+                endwhile;
+                // While loop must be terminated
+            ?>
+                                         
+                                        </select>&nbsp
+
+                                       <!-- <input type="text" name="search_by_type" required value="<?php if(isset($_GET["search_by_type"])){echo $_GET["search_by_type"]; } ?>" class="form-control" placeholder="Search data">&nbsp-->
                                         <button type="submit" class="btn btn-primary">Search</button>
                                     </div>
                                 </form>

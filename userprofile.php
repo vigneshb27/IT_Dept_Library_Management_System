@@ -88,7 +88,8 @@ $(document).ready(function () {
     }
     else if($s=='bb'){
      $con=mysqli_connect("localhost","root","","lib");
-     $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un' and request_status='accepted';");
+     
+     $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un' and request_status='accepted' ;");
      $cntcheck=mysqli_num_rows(mysqli_query($con,"SELECT * FROM transactions WHERE req_id in ( SELECT req_id FROM request WHERE username='$un')"));
      if($cntcheck!=0){
      ?>
@@ -113,7 +114,9 @@ $(document).ready(function () {
         $bid=$res['book_id'];
         $tn=mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid;");
         $trans=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid;"));
-        $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id=$bid;"));
+        $bhrw=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM books WHERE book_id='$bid'"));
+        $bhid=$bhrw['bhid'];
+        $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id='$bhid';"));
             
         ?>
            
@@ -165,9 +168,11 @@ if($s=='rb'){
 <?php
      while($res=mysqli_fetch_array($req)){
         $rid=$res['req_id'];
-        $bid=$res['book_id'];
+        $bsid=$res['book_id'];
+        $rb=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM books WHERE book_id='$bsid';"));
+        $bid=$rb['bhid'];
         $stat=$res['request_status'];
-        $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id=$bid;"));
+        $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id='$bid';"));
         ?>
         <tr>
           
@@ -221,7 +226,9 @@ if($s=='rr'){
         $bid=$res['book_id'];
         $trans=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid;"));
         $tn=mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid;");
-        $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id=$bid;"));
+        $bhrw=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM books WHERE book_id='$bid'"));
+        $bhid=$bhrw['bhid'];
+        $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id=$bhid;"));
         if($trans['return_status']=="not return"){            
         ?>
            

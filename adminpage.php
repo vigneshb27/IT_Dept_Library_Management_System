@@ -4,7 +4,7 @@ include "templates/header.php";
 if(isset($_SESSION['admin'])){
     $admin=$_SESSION['admin'];
     $con = mysqli_connect("localhost","root","","lib");
-    $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM book;"));
+    $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM books;"));
 
 }
 else{
@@ -85,7 +85,7 @@ else{
                 <!--<input  type='submit' id='bm'  name="bm" value='Borrow Management'>-->
                 </li>
                 <li >
-                <a href="adminpage.php?selected=rm" class=<?php if($s=='rm') echo "'active'"?>>Return Management</a>
+                <a href="adminpage.php?selected=rm" class=<?php if($s=='rm') echo "'active'"?>>Return Requests</a>
                 <!--<input  type='submit' id='rm'  name="rm" value='Return Management'>-->
                 </li>
                 <br>
@@ -153,12 +153,12 @@ if($s=='db'){
         $i=0;
         $cnt=mysqli_num_rows($brw);
         //echo $cnt;
-        while($row=mysqli_fetch_array($brw) and $i!=5){
+        while($row=mysqli_fetch_array($brw) and $i!=2){
             $i=$i+1;
             ?>
              <td><?php echo $row['username'];?></td>
              <td><?php echo $row['book_id'];?></td>
-              
+        </tr>
         <?php
            }?>
        </tr>
@@ -238,23 +238,29 @@ else if($s=='ab'){
                     <label for="bname">Book Name :</label>
                     <input type="text" name="bname"  id="bname" class="form-control" required>
                     <br><br>
+                    <label for="bdm">Book Domain :</label>
+                    <select id='bd' name='bd' class = "form-select"  required>
+                       <option>IT</option>
+                       <option>AIDS</option>
+                    </select>
+                    <br><br>
         <label for="a1">Author 1 </label>
         <input type="text" name="a1"  id="a1" class="form-control" required>
 	  <br><br>
       <label for="s2"> Author 2 </label>
-      <input type="text" name="a2"  id="a2" class="form-control" required>
+      <input type="text" name="a2"  id="a2" class="form-control">
 	  <br><br>
       <label for="a3">Author 3 </label>
-      <input type="text" name="a3"  id="a3" class="form-control" required>
+      <input type="text" name="a3"  id="a3" class="form-control" >
 	  <br><br>
       <label for="pname">Publisher Name </label>
-	  <input type="text" name="pname"  id="pname" class="form-control" required>
+	  <input type="text" name="pname"  id="pname" class="form-control" >
 	  <br><br>
       <label for="pyear">Published Year </label>
-      <input type="text" name="pyear" id="pyear" class="form-control" required>
+      <input type="text" name="pyear" id="pyear" class="form-control">
 	  <br><br>
       <label for="ed">Edition </label>
-	  <input type="text" name="ed" id="ed" class="form-control" required>
+	  <input type="text" name="ed" id="ed" class="form-control" >
 	  <br><br>
       <label for="copies">No of Copies </label>
 	  <input type="number" name="copies" id="copies" class="form-control" required>
@@ -300,6 +306,7 @@ else if($s=='ab'){
               $ed=$_POST['ed'];
               $cp=$_POST['copies'];
               $rck=$_POST['rck'];
+              $dmn=$_POST['bd'];
               $cq=mysqli_query($con,"SELECT * FROM author WHERE name='$a1';");
               $cr=mysqli_fetch_array($cq);
               $c1=mysqli_num_rows($cq);
@@ -365,8 +372,17 @@ else if($s=='ab'){
               echo $aid2;
               echo $aid3;
               echo $pid;
-              $rup=mysqli_query($con,"UPDATE rack SET book_count=book_count+1 WHERE rack_id=$rid;");
-              $res=mysqli_query($con,"INSERT INTO book VALUES($bookid,'$bname',$aid1,$aid2,$aid3,$pid,$pr,'$ed',$cp,$rid,'available',$cp);");
+              $res=mysqli_query($con,"INSERT INTO book VALUES($bookid,'$bname','$aid1','$aid2','$aid3','$pid','$pr','$ed','$cp','$rid','available',$cp);");
+              if($res==1){
+              $rup=mysqli_query($con,"UPDATE rack SET book_count=book_count+1 WHERE rack_id=$rid;");}
+              $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM books;"));
+              $cnt=$cnt+1;
+              $hexval=dechex($cnt);
+              $hexval=str_pad($hexval, 3, "0", STR_PAD_LEFT);
+    
+              $uniqid="2023".$dmn.strtoupper($cnt);
+              $books=mysqli_query($con,"INSERT INTO books VALUES('$uniqid','$bookid','available')");
+
               /*Insert book and change the rack book count*/
        }
       ?>
@@ -395,11 +411,14 @@ else if($s=='ab'){
 
             <?php
           if(isset($_POST['delete'])){
-            $bid=$_POST['bid'];
+            $b_id=$_POST['bid'];
+            $brw=mysqli_query($con,"SELECT * FROM books WHERE book_id='$b_id'");
+            $bid=$brw['bhid'];
             $rckq=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id=$bid;"));
             $rckid=$rckq['rack_id'];
             $rp=mysqli_query($con,"DELETE FROM book WHERE book_id=$bid;");
             $rup=mysqli_query($con,"UPDATE rack SET book_count=book_count-1 WHERE rack_id=$rckid;");
+            $bdes=mysqli_query($con,"DELETE FROM books WHERE book_id='$b_id'");
             echo "Deleted Successfully";
           }            
         }
@@ -542,6 +561,7 @@ else if($s=='bm'){?>
                             <thead>
                                 <tr>
                                 <th>user_name</th>
+                                <th>book_id</th>
                                 <th>book_name</th>
                                 <th>request_date</th>
                                 <th>Accept</th>
@@ -552,9 +572,13 @@ else if($s=='bm'){?>
                        
                     if ($con) {
 
+
                         if(isset($_GET["book_id"]) && isset($_GET["req_id"]) && isset($_GET["option"])){
-                            $book_id = $_GET["book_id"];
+                           
                             $req_id = $_GET["req_id"];
+                            $bid = $_GET["book_id"];
+                            $bsrw=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM books WHERE book_id='$bid';"));
+                            $book_id=$bsrw['bhid'];
                             if( $_GET["option"]=="accept"){ 
                                 
                                 $status = "UPDATE request SET request_status = \"accepted\" WHERE req_id=$req_id";
@@ -567,6 +591,7 @@ else if($s=='bm'){?>
                                 }
 
                                 $trans  = "INSERT INTO transactions(req_id, issued_date, due_date,return_status) VALUES ($req_id,CURRENT_TIMESTAMP,ADDDATE(CURRENT_TIMESTAMP,INTERVAL 3 MONTH),'not return')";
+                               // $updatenot=mysqli_query($con,"UPDATE books SET availability='notavailable' WHERE book_id='$book_id';");
                                 if (mysqli_query($con, $trans)){
                                     //echo "inserted into  transaction";
                                 }
@@ -605,8 +630,9 @@ else if($s=='bm'){?>
                                 else   {
                                     echo "Error: " . $sql . "<br>" . mysqli_error($con);
                                 }
+                                $update=mysqli_query($con,"UPDATE books SET availability='available' WHERE book_id='$bid';");
                                 //5
-                                $lim = "UPDATE user SET max_bow_lim= max_bow_lim+1 WHERE username LIKE (SELECT username from request where req_id=$req_id)";                 
+                                $lim = "UPDATE staffusers SET max_bow_lim= max_bow_lim+1 WHERE staffid LIKE (SELECT username from request where req_id=$req_id)";                 
                                 if (mysqli_query($con, $lim)){
                                     //echo "<br>limit decremented successful";
                                 }
@@ -618,16 +644,19 @@ else if($s=='bm'){?>
                              
                         }
 
-                        $query = "SELECT username,book_name,requested_date,req_id,request.book_id,request.request_status FROM request INNER JOIN book ON request.book_id=book.book_id WHERE request_status = 'requested' ";
+                        $query = "SELECT username,bhid,requested_date,req_id,request.book_id,request.request_status FROM request INNER JOIN books ON request.book_id=books.book_id WHERE request_status = 'requested' ";
                         $query_run = mysqli_query($con, $query);
                         
                         if(mysqli_num_rows($query_run) > 0){
+                            
                             foreach($query_run as $items) {
-
+                                $bhid=$items['bhid'];
+                                $bnm=mysqli_fetch_array(mysqli_query($con,"SELECT * from book WHERE book_id='$bhid';"));
                                 ?>
                                 <tr>
                                     <td><?= $items['username']; ?></td>
-                                    <td><?= $items['book_name']; ?></td>
+                                    <td><?= $items['book_id'];?></td>
+                                    <td><?= $bnm['book_name']; ?></td>
                                     <td><?= $items['requested_date']; ?></td>
                                     <?php $req_id = $items['req_id'];$book_id=$items['book_id'];?>
                                     <td><a style="color:green;" href="adminpage.php?selected=bm&option=accept&book_id=<?php echo $book_id; ?>&req_id=<?php echo $req_id; ?>" >Accept</a> </td>
@@ -670,7 +699,10 @@ if($s=='rm'){?>
                     if ($con) {
 
                         if(isset($_GET["book_id"]) && isset($_GET["return_req_id"]) && isset($_GET["trans_id"]) && isset($_GET["option"])){
-                            $book_id = $_GET["book_id"];
+                            
+                            $bid = $_GET["book_id"];
+                            $bsrw=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM books WHERE book_id='$bid';"));
+                            $book_id=$bsrw['bhid'];
                             $return_req_id = $_GET["return_req_id"];
                             $trans_id = $_GET["trans_id"];
 
@@ -686,6 +718,7 @@ if($s=='rm'){?>
                                 }
                                 //2
                                 $trans  = "UPDATE transactions SET return_status='returned',returned_date=CURRENT_TIMESTAMP WHERE trans_id = $trans_id";
+                                $bookava=mysqli_query($con,"UPDATE books SET availability='available' WHERE book_id='$bid';");
                                 if (mysqli_query($con, $trans)){
                                     //echo "inserted into  transaction";
                                 }
@@ -718,7 +751,7 @@ if($s=='rm'){?>
                                         //echo "Error: " . $sql . "<br>" . mysqli_error($con);
                                     }  
                                     //5
-                                    $lim = "UPDATE user SET max_bow_lim= max_bow_lim + 1 WHERE username=(SELECT username FROM request Where req_id=(SELECT req_id from request where book_id=$book_id ) )";                 
+                                    $lim = "UPDATE staffusers SET max_bow_lim= max_bow_lim + 1 WHERE staffid=(SELECT username FROM request Where req_id=(SELECT req_id from request where book_id='$bid' ) )";                 
                                     
                                     if (mysqli_query($con, $lim)){
                                         //echo "limit increment successful";
@@ -752,17 +785,18 @@ if($s=='rm'){?>
                         }
 
 
-                        $query = "SELECT transactions.trans_id,username,book_name,return_req_date,return_req_id,request.book_id,request.request_status FROM transactions INNER JOIN (request INNER JOIN book ON book.book_id = request.book_id) ON request.req_id=transactions.req_id INNER JOIN return_request ON transactions.trans_id = return_request.trans_id WHERE return_status = 'requested' ";
+                        $query = "SELECT transactions.trans_id,bhid,username,return_req_date,return_req_id,request.book_id,request.request_status FROM transactions INNER JOIN (request INNER JOIN books ON books.book_id = request.book_id) ON request.req_id=transactions.req_id INNER JOIN return_request ON transactions.trans_id = return_request.trans_id WHERE return_status = 'requested' ";
                         $query_run = mysqli_query($con, $query);
                         
                         if(mysqli_num_rows($query_run) > 0){
                             foreach($query_run as $items) {
-
+                                $bhid=$items['bhid'];
+                                $bnm=mysqli_fetch_array(mysqli_query($con,"SELECT * from book WHERE book_id='$bhid';"));
                                 ?>
                                 <tr>
                                     <td><?= $items['username']; ?></td>
                                     <td><?= $items['trans_id']; ?></td>
-                                    <td><?= $items['book_name']; ?></td>
+                                    <td><?= $bnm['book_name']; ?></td>
                                     <td><?= $items['return_req_date']; ?></td>
                                     <?php 
                                         $return_req_id = $items['return_req_id'];
@@ -785,9 +819,39 @@ if($s=='rm'){?>
                             </tr>
                         <?php
                     }}}
-                    
-
-                                ?>
+if($s=='pm'){    
+    $con=mysqli_connect("localhost","root","","lib") ;          
+     $row=mysqli_query($con,"SELECT * FROM purchase GROUP BY year;");
+     while($re=mysqli_fetch_array($row)){
+        ?><button class='btn btn-success'><?=$re['year'];?><?php
+        $yr=$re['year'];?>
+        <div class="col-md-12">
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                <th>Book_id</th>
+                                <th>Name</th>
+                                <th>Publisher</th>
+                                <th>Month</th>
+                                <th>Price</th>
+                                </tr>
+                            </thead>
+                            <?php
+          $data=mysqli_query($con,"SELECT * FROM purchase WHERE year=$yr;");
+          while($rs=mysqli_fetch_array($data)){
+            ?>
+           <tr><td><?= $rs['book_id'];?></td>
+           <td><?=  $rs['title'];?></td>
+           <td><?= $rs['publisher'];?></td>
+           <td><?= $rs['month'];?></td>
+           <td><?= $rs['price'];?></td></tr>
+          <?php }
+        ?></table></button><br><?php  
+        }
+        
+        } ?>
                             </tbody>
                         </table>
                     </div>

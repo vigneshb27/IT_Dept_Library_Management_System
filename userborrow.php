@@ -4,10 +4,11 @@
   require("templates/header.php");
   echo "<h1 style='text-align: center'>Transaction Confirmation</h1>";
   if(isset($_SESSION['user'])){
+
     $un=$_SESSION['user'];
      $bid=$_GET['b_id'];
      $con=mysqli_connect("localhost","root","","lib");
-     $res=mysqli_query($con,"SELECT * FROM staffusers WHERE mail='$un';");
+     $res=mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$un';");
      $row=mysqli_fetch_array($res);
      $lim=$row['max_bow_lim'];
      //echo "$lim";
@@ -17,7 +18,11 @@
      else{
        $rb=mysqli_query($con,"SELECT * FROM book WHERE book_id='$bid';");
        $rwn=mysqli_fetch_array($rb);
-       
+       $bis=mysqli_query($con,"SELECT * FROM books WHERE bhid='$bid' and availability='available';");
+       if($rwn['available_copies']==0){
+        echo "<p style='color:red;align:center;font-size:30px'>Sorry!! The book is not avialable</p>";
+       }
+       else{
        ?>
        <div class="col-md-12">
        <div class="card mt-4">
@@ -34,46 +39,34 @@
                        <th>Edition</th>
                        
                        </tr>
-                   </thead>
+                   </thead><?php
+                   while($bisrow=mysqli_fetch_array($bis)){
+                    $bisid=$bisrow['book_id'];
+                    ?>
                    <tr>
-                           <td><?= $rwn['book_id']; ?></td>
+                           <td><?= $bisrow['book_id']; ?></td>
                            <td><?= $rwn['book_name']; ?></td>
                            <td><?= $rwn['author1']; ?></td>
                            <td><?= $rwn['author2']; ?></td>
                            <td><?= $rwn['author3']; ?></td>
                            <td><?= $rwn['published_year']; ?></td>
-                           <td><?= $rwn['edition']; ?></td></tr></table>
-<?php
-       if($rwn['available_copies']==0){
-        echo "<p style='color:red;align:center;font-size:30px'>Sorry!! The book is not avialable</p>";
-       }
-       else{
-        $message = 'Requested';
-       
-       
+                           <td><?= $rwn['edition']; ?></td>
+                           <td><a href="borrowconfirm.php?book_id=<?php echo $bisid?>"><button class='btn btn-success'>Borrow</button></a>
+                          </tr>
+<?php}   
         ?>
+      
+      <!--
       <form method="post"><input type="submit" class='btn btn-primary' name='sub' value='Confirm'>
        <input type="submit" class='btn btn-danger' name='can' value='Cancel'>
       </form>
-
+                   -->
         <?php
-        if(isset($_POST['sub'])){
-        $ins_trans =mysqli_query($con,"INSERT into request(book_id , username , requested_date,request_status) VALUES($bid,'$un',current_timestamp(),'$message');");
-        $ava_chnge=mysqli_query($con,"UPDATE staffusers SET max_bow_lim=max_bow_lim-1 WHERE mail='$un';");
-        $copies = mysqli_query($con,"UPDATE book SET available_copies= available_copies - 1 WHERE book_id=$bid");   
-        $chk=mysqli_query($con,"SELECT * FROM book WHERE book_id='$bid';");
-        $val=mysqli_fetch_array($chk);
-        if($val['available_copies']==0){
-            $copies = mysqli_query($con,"UPDATE book SET availability='notavailable' WHERE book_id=$bid");  
-        }
-        echo "<p style='color:green'>Your request was submitted successfully to the admin.</p>";
-        }
-        if(isset($_POST['can'])){
-            echo "<script>window.open('search.php','_self')</script>";
-        }
+        
+       
     }
     }
-  }
+  }}
   else{
     echo "<script>alert('Please login to borrow!!')</script>";
     echo "<script>window.open('userlogin.php','_self')</script>";

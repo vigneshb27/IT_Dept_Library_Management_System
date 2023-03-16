@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Concert+One&family=Poppins&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/home_page.css">
 </head>
 <body>
     
