@@ -98,7 +98,7 @@ $(function() {
                                 <strong>Search by Book type :</strong><br><br>
                                 <form action="" method="GET">
                                     <div class="input-group mb-3">
-                                    <select name="search_by_type">
+                                    <select name="search_by_type" class = "form-select">
                                             
                                             <?php
                                             $con = mysqli_connect("localhost","root","","lib");
@@ -119,8 +119,8 @@ $(function() {
                                                 endwhile;
                                                 // While loop must be terminated
                                             ?>
-                                                                         
-                                                                        </select> &nbsp;
+                                            
+                                                                        </select>&nbsp;
                                 
                                                                        <!-- <input type="text" name="search_by_type" required value="<?php if(isset($_GET["search_by_type"])){echo $_GET["search_by_type"]; } ?>" class="form-control" placeholder="Search data">&nbsp-->
                                                                         <button type="submit" class="btn btn-primary align-right">Search</button>

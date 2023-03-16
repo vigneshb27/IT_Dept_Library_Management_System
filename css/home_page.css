@@ -3,7 +3,8 @@ body,html{
 }
 
 body{
-    background-color: rgba(10, 1, 35, 0.933);
+    background: linear-gradient( rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.82) ), url(../images/library.jpg);
+    background-size: cover;
     color: white;
 }
 body h1{

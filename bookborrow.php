@@ -97,7 +97,7 @@ $(function() {
                                 <strong>Search by Book type :</strong><br><br>
                                 <form action="" method="GET">
                                     <div class="input-group mb-3">
-                                        <select name="search_by_type">
+                                        <select name="search_by_type" class = "form-select">
                                             
             <?php
             $con = mysqli_connect("localhost","root","","lib");

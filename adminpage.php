@@ -5,7 +5,7 @@ if(isset($_SESSION['admin'])){
     $admin=$_SESSION['admin'];
     $con = mysqli_connect("localhost","root","","lib");
     $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM books;"));
-
+    $cur_year_books = mysqli_num_rows(mysqli_query($con,"SELECT * FROM purchase WHERE year = 2023;"));
 }
 else{
     
@@ -77,7 +77,7 @@ else{
                 <!--<input  type='submit' id='mu'   name="mu" value='Manage users'>-->
                 </li>
                 <li > 
-                <a href="adminpage.php?selected=pm" class=<?php if($s=='pm') echo "'active'"?>>Purchase Management</a>
+                <a href="adminpage.php?selected=pm" class=<?php if($s=='pm') echo "'active'"?>>Purchase History</a>
                 <!--<input  type='submit' id='mu'   name="mu" value='Manage users'>-->
                 </li>
                 <li >
@@ -171,9 +171,10 @@ if($s=='db'){
     <div class="card borderclr">
       <div class="card-body">
       <i class="icon-wallet design-icon-wallet"></i><br><br>
-        <h5 class="card-title">Purchase history</h5>
-        <p class="card-text">Adding table to dsiplay purchase history</p>
-        <a href="#" class="btn btn-primary">More...</a>
+      <p class="card-text text">Books purchased this year</p>
+      <h5 class="card-title titlecss"><?php echo $cur_year_books ?></h5>
+         <br>
+        <a href="adminpage.php?selected=pm" class="btn btn-primary">More...</a>
       </div>
     </div>
   </div>
@@ -823,10 +824,13 @@ if($s=='pm'){
     $con=mysqli_connect("localhost","root","","lib") ;          
      $row=mysqli_query($con,"SELECT * FROM purchase GROUP BY year;");
      while($re=mysqli_fetch_array($row)){
-        ?><button class='btn btn-success'><?=$re['year'];?><?php
+        ?><?php
         $yr=$re['year'];?>
         <div class="col-md-12">
                 <div class="card mt-4">
+                <div class="card-header">
+                <h4><?=$re['year'];?></h4>
+                </div>
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead>
