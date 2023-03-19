@@ -42,8 +42,12 @@
       <li class="nav-item active">
         <a class="nav-link" href="home.php"><i class="bi bi-house-door-fill"></i> Home</a>
       </li>
+      
       <li class="nav-item">
         <a class="nav-link" href="http://www.it.mitindia.edu/"><i class="bi bi-info-square-fill"></i> IT website</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="about.php"><i class="bi bi-code-slash"></i> About developers</a>
       </li>
       <?php 
       session_start();

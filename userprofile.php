@@ -132,7 +132,9 @@ $(document).ready(function () {
         <?php
         
 
-     }
+     }?>
+     </table>
+     <?php
     }
     else{?>
     <p>No books in hand!!</p>
@@ -183,7 +185,9 @@ if($s=='rb'){
             <td> <?= $res['request_status']?></td>
         </tr>
         <?php
-     }}
+     }
+    ?></table><?php
+    }
 
 }
 if($s=='rr'){
@@ -244,7 +248,8 @@ if($s=='rr'){
         <?php
         
 
-     }}
+     }}?>
+    </table><?php
     }
     else{?>
     <p>No books in hand!!</p>
@@ -253,3 +258,10 @@ if($s=='rr'){
 }
 
 ?>
+
+</div></div></div>
+</div></div></div>
+</body></html>
+ <?php
+  include("templates/footer.php");
+  ?>

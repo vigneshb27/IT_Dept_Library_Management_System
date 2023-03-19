@@ -105,3 +105,7 @@ else {
 
 }
 ?>
+</html>
+ <?php
+  include("templates/footer.php");
+  ?>

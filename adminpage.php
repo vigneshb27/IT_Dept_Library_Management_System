@@ -122,7 +122,7 @@ if(isset($_POST['logout'])){
 if($s=='db'){
     ?>
    <div class="row">
-  <div class="col-sm-4">
+  <div class=" col-sm-4">
     <div class="card borderclr">
       <div class="card-body">
       <i class="icon-book-open design-icon-book"></i><br><br>
@@ -153,6 +153,7 @@ if($s=='db'){
         $i=0;
         $cnt=mysqli_num_rows($brw);
         //echo $cnt;
+        if($cnt!=0){
         while($row=mysqli_fetch_array($brw) and $i!=2){
             $i=$i+1;
             ?>
@@ -160,6 +161,9 @@ if($s=='db'){
              <td><?php echo $row['book_id'];?></td>
         </tr>
         <?php
+           }}
+           else{
+             echo "No requests";
            }?>
        </tr>
         </table></p>
@@ -822,14 +826,14 @@ if($s=='rm'){?>
                     }}}
 if($s=='pm'){    
     $con=mysqli_connect("localhost","root","","lib") ;          
-     $row=mysqli_query($con,"SELECT * FROM purchase GROUP BY year;");
+     $row=mysqli_query($con,"SELECT * FROM purchase GROUP BY year ORDER BY year DESC;");
      while($re=mysqli_fetch_array($row)){
         ?><?php
         $yr=$re['year'];?>
         <div class="col-md-12">
                 <div class="card mt-4">
                 <div class="card-header">
-                <h4><?=$re['year'];?></h4>
+                <h4 ><?=$re['year'];?></h4>
                 </div>
                     <div class="card-body">
                         <table class="table table-bordered">
@@ -852,7 +856,7 @@ if($s=='pm'){
            <td><?= $rs['month'];?></td>
            <td><?= $rs['price'];?></td></tr>
           <?php }
-        ?></table></button><br><?php  
+        ?></table></div><br><?php  
         }
         
         } ?>
@@ -863,3 +867,14 @@ if($s=='pm'){
             </div>
         </div>
     </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+</body>
+    </html>
+
+    <?php
+  include("templates/footer.php");
+  ?>

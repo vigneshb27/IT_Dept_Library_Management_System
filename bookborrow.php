@@ -339,3 +339,6 @@ $_SESSION["user_id"] = /*$_GET['search']*/4567 ;
 
 </body>
 </html>
+<?php
+  include("templates/footer.php");
+  ?>

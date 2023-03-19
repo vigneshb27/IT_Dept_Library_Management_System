@@ -10,3 +10,6 @@ else{
     header('location: userlogin.php');
 }
 ?>
+ <?php
+  include("templates/footer.php");
+  ?>

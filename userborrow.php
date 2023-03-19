@@ -42,13 +42,16 @@
                    </thead><?php
                    while($bisrow=mysqli_fetch_array($bis)){
                     $bisid=$bisrow['book_id'];
+                    $query = "SELECT a1.name AS author_1, a2.name AS author_2, a3.name AS author_3,book_id,book_name,publisher_name,published_year,rack_type,edition,available_copies,availability FROM book AS b INNER JOIN publisher on b.publisher_id=publisher.publisher_id INNER JOIN rack on b.rack_id=rack.rack_id LEFT JOIN author AS a1 ON b.author1 = a1.author_id LEFT JOIN author AS a2 ON b.author2 = a2.author_id LEFT JOIN author AS a3 ON b.author3 = a3.author_id WHERE book_id='$bid';";
+                    $query_run = mysqli_query($con, $query);
+                    $rwnb=mysqli_fetch_array($query_run);
                     ?>
                    <tr>
                            <td><?= $bisrow['book_id']; ?></td>
                            <td><?= $rwn['book_name']; ?></td>
-                           <td><?= $rwn['author1']; ?></td>
-                           <td><?= $rwn['author2']; ?></td>
-                           <td><?= $rwn['author3']; ?></td>
+                           <td><?= $rwnb['author_1']; ?></td>
+                           <td><?= $rwnb['author_2']; ?></td>
+                           <td><?= $rwnb['author_3']; ?></td>
                            <td><?= $rwn['published_year']; ?></td>
                            <td><?= $rwn['edition']; ?></td>
                            <td><a href="borrowconfirm.php?book_id=<?php echo $bisid?>"><button class='btn btn-success'>Borrow</button></a>
@@ -74,3 +77,6 @@
   }
  
 ?>
+ <?php
+  include("templates/footer.php");
+  ?>

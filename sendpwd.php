@@ -2,3 +2,6 @@
    
 </script>
 <input type="button" value="Send Email" onclick="sendEmail()">
+<?php
+  include("templates/footer.php");
+  ?>

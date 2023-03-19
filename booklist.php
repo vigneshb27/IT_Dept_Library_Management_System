@@ -46,14 +46,12 @@ $(function() {
 
 </script>
 </head>
-<body onload = "disp_tab()">
-         
+<body onload = "disp_tab()">         
         </div>
     <!--form start-->
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                
+            <div class="col-md-12">                
                     <div class = "structure">
                         <h2>Information Technology Library</h2>
                         <!--radio button start-->
@@ -62,8 +60,7 @@ $(function() {
                         <input type="radio" name="demo" value="Publisher"/> Publisher name &nbsp&nbsp&nbsp
                         <input type="radio" name="demo" value="Domain"/> Type/ Domain
                         <!--radio button start-->
-                    </div>
-                    
+                    </div>                    
                     <div class = "input_display">
                         
                             
@@ -126,8 +123,7 @@ $(function() {
                                                                         <button type="submit" class="btn btn-primary align-right">Search</button>
                                                                    </div>
                                 </form>
-                                </div>
-                            
+                                </div>                            
                         </div>
                     </div>
                 </div>
@@ -333,3 +329,6 @@ $_SESSION["user_id"] = /*$_GET['search']*/4567 ;
 
 </body>
 </html>
+<?php
+  include("templates/footer.php");
+  ?>
