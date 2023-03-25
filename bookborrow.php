@@ -138,6 +138,7 @@ $(function() {
             <div class="col-md-12">
                 <div class="card mt-4">
                     <div class="card-body">
+                    <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -330,7 +331,7 @@ $(function() {
                                 ?>
                                 
                             </tbody>
-                        </table>
+                        </table></div>
                     </div>
                 </div>
             </div>

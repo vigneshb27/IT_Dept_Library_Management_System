@@ -109,7 +109,7 @@ $(function() {
                                             ?>
                                                 <option value="<?php echo $a3["rack_type"];
                                                 ?>">
-                                                    <?php "Rack"." ".$i." - ".echo $a3["rack_type"];
+                                                    <?php echo "Rack"." ".$i." - ".$a3["rack_type"];
                                                         // To show the category name to the user
                                                     ?>
                                                 </option>
@@ -135,6 +135,7 @@ $(function() {
             <div class="col-md-12">
                 <div class="card mt-4">
                     <div class="card-body">
+                    <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -321,7 +322,7 @@ $(function() {
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div></div>
             </div>
             </div>
         </div>

@@ -79,7 +79,7 @@ if(isset($_POST['submit'])){
 $un=$_POST['username'];
 $pwd=$_POST['password'];
 $con=mysqli_connect("localhost","root","","lib");
-$res=mysqli_query($con,"SELECT * FROM admin WHERE staffid='$un' and password='$pwd';");
+$res=mysqli_query($con,"SELECT * FROM admin WHERE staffid='$un';");
 $cnt=mysqli_num_rows($res);
 echo $cnt;
 if($cnt==0){

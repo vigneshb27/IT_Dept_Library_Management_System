@@ -3,8 +3,8 @@
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
-}
 
+}
 p {
     font-family: 'Poppins', sans-serif;
     font-size: 1.1em;
@@ -12,7 +12,6 @@ p {
     line-height: 1.7em;
     color: #999;
 }
-
 a,
 a:hover,
 a:focus {
@@ -36,20 +35,16 @@ select{
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 0, 0, 0.6);
 
 }
-
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
-
 .wrapper {
-    display: flex;
     width: 100%;
     align-items: stretch;
 }
 
 #sidebar {
-    min-width: 250px;
-    max-width: 250px;
+    
     background: rgba(10, 1, 35, 0.933);
     color: #fff;
     transition: all 0.3s;
@@ -92,8 +87,8 @@ select{
 }
 
 #sidebar ul li a.active{
-    background: rgba(10, 1, 35, 0.933);
-    color: #fff;
+    background: rgba(255, 255, 255, 0.933);
+    color: rgba(10, 1, 35, 0.933);
 }
 
 .dropdown-toggle::after {
@@ -231,7 +226,7 @@ ul.CTAs a {
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
-
+/*
 @media (max-width: 768px) {
     #sidebar {
         margin-left: -250px;
@@ -242,4 +237,40 @@ ul.CTAs a {
     #sidebarCollapse span {
         display: none;
     }
-}
+}*/
+@media screen and (min-width: 700px) {
+   
+    .wrapper{
+        display: flex !important;
+
+    }
+    #sidebar {
+      min-width: 250px;
+      max-width: 250px;
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+    
+    div.content {margin-left: 0;}
+  }
+  
+  /* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+  @media screen and (max-width: 400px) {
+    
+    .wrapper{
+        max-width: 400px;
+        min-width: 400px;
+    }
+
+    #sidebar a{
+      text-align: center;
+      float: none;
+    }
+
+    #sidebar{
+        
+    }
+
+
+  }

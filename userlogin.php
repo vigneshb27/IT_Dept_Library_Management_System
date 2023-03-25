@@ -84,7 +84,7 @@ if(isset($_POST['submit'])){
 $un=$_POST['username'];
 $pwd=$_POST['password'];
 $con=mysqli_connect("localhost","root","","lib");
-$res=mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$un' and pwd='$pwd';");
+$res=mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$un';");
 $cnt=mysqli_num_rows($res);
 echo $cnt;
 if($cnt==0){

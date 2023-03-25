@@ -61,8 +61,9 @@ if(isset($_GET['selected'])){
                 <!--<input  type='submit'  id='rb'  name="rb" value='Remove Book'>-->
                 </li>
                 <li > 
-                <form method='post'>
+               
                     <a>
+                    <form method='post'>
                 <div class="logout"><a href='userlogin.php'><i class="bi bi-box-arrow-right"></i> Logout</a></div>
                     </a>
                 <!--<input  type='submit' id='mu'   name="mu" value='Manage users'>-->
@@ -100,6 +101,7 @@ $(document).ready(function () {
      <div class="col-md-12">
                 <div class="card mt-4">
                     <div class="card-body">
+                    <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -135,12 +137,10 @@ $(document).ready(function () {
             <td><form method="POST"><button class='btn btn-info' name='getr'><a href="userprofile.php?selected=bb&reqid=<?php echo $rid;?>">Get Receipt</a></button></td>
         </tr>
         <?php } }?>
-     </table>
+     </table></div>
         <?php
         if(isset($_GET['reqid'])){
-
-            $rid=$_GET['reqid'];
-        
+            $rid=$_GET['reqid'];     
             $res=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM request WHERE req_id='$rid';"));
             $bid=$res['book_id'];
             $sid=$res['username'];
@@ -152,15 +152,16 @@ $(document).ready(function () {
             $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id='$bhid';"));
          
         ?></table></div></div></div>
-<div class="card" >
+      
+<div class="card text-black" >
   <div class="card-body mx-4" >
-    <div class="container">
-        <div  id='card'>
-      <p class="my-5 mx-5" style="font-size: 30px;color:black;text-align:center;">Department of Information Technology</p>
+    <div class="container text-black" >
+        <div   id='card'><!-- class="d-none" added for not showing but printing-->
+      <p class="my-5 mx-5 " style="font-size: 30px;color:black;text-align:center;"><b>Department of Information Technology</b></p>
       <div class="row">
         <ul class="list-unstyled">
           <li class="text-black"><?= $stf['Name'] ?></li>
-          <li class="text-muted mt-1"><span class="text-black"><?= $sid ?></span></li>
+          <li class="text-black mt-1"><span class="text-black"><?= $sid ?></span></li>
           <li class="text-black mt-1"><?= date('d-m-Y'); ?></li>
         </ul>
         <hr>
@@ -168,7 +169,7 @@ $(document).ready(function () {
           <p>Book ID</p>
         </div>
         <div class="col-xl-2">
-          <p class="float-end" ><?= $bhrw['book_id']?>
+          <p class="float-end text-black" ><?= $bhrw['book_id']?>
           </p>
         </div>
         <hr>
@@ -178,7 +179,7 @@ $(document).ready(function () {
           <p>Book Name</p>
         </div>
         <div class="col-xl-2">
-          <p class="float-end"><?= $bookdet['book_name'];?>
+          <p class="float-end text-black"><?= $bookdet['book_name'];?>
           </p>
         </div>
         <hr>
@@ -188,7 +189,7 @@ $(document).ready(function () {
           <p>Return date</p>
         </div>
         <div class="col-xl-2">
-          <p class="float-end"><?= $res['exp_return'];?>
+          <p class="float-end text-black"><?= $res['exp_return'];?>
           </p>
         </div>
         <hr>
@@ -198,7 +199,7 @@ $(document).ready(function () {
           <p>Rack Number</p>
         </div>
         <div class="col-xl-2">
-          <p class="float-end"><?= $bookdet['rack_id'];?>
+          <p class="float-end text-black"><?= $bookdet['rack_id'];?>
           </p>
         </div>
         <hr style="border: 2px solid black;">
@@ -206,8 +207,8 @@ $(document).ready(function () {
       <div class="row text-black">
 
         <div class="col-xl-12">
-          <p class="float-end fw-bold">Accepted
-          </p>
+          <h3 class="float-end fs-100 fw-bold text-success">Accepted
+        </h3>
         </div>
         <hr style="border: 2px solid black;">
       </div></div>
@@ -258,6 +259,7 @@ if($s=='rb'){
         <div class="col-md-12">
                 <div class="card mt-4">
                     <div class="card-body">
+                    <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -289,7 +291,7 @@ if($s=='rb'){
         </tr>
         <?php
      }
-    ?></table><?php
+    ?></table></div><?php
     }
 
 }
@@ -313,6 +315,7 @@ if($s=='rr'){
      <div class="col-md-12">
                 <div class="card mt-4">
                     <div class="card-body">
+                    <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -357,7 +360,7 @@ if($s=='rr'){
         
 
      }}?>
-    </table><?php
+    </table></div><?php
     }
     else{?>
     <p>No books in hand!!</p>

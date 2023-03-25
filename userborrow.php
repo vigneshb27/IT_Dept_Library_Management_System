@@ -53,6 +53,7 @@
                   <div class="col-md-12">
                  <div class="card mt-4">
                  <div class="card-body">
+                 <div class="table-responsive">
                   <table class="table table-bordered">  
                    <thead>
                        <tr>
@@ -107,7 +108,7 @@
  
 ?>
 
-</table>
+</table></div>
 <div class="text-center">
 <a href="bookborrow.php"><button class="btn btn-danger">Back</button></a>
 </div>

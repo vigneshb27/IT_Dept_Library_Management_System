@@ -21,8 +21,8 @@
     if($val['available_copies']==0){
         $copies = mysqli_query($con,"UPDATE book SET availability='notavailable' WHERE book_id='$bid'");  
     }
-    echo "<script>alert('Borrowed successfully!!')</script>";
-    echo "<script>window.open('userborrow.php?b_id=$bid','_self')</script>";    
+    echo "<script>alert('Your request has been submitted to admin successfully!!')</script>";
+    echo "<script>window.open('bookborrow.php','_self')</script>";    
 
   }
 

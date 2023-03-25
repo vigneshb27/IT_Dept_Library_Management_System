@@ -43,7 +43,7 @@ include("templates/header.php");
         <div class="social">
         <a href="https://www.linkedin.com/in/sandhiya-m-051082220/"> <i class="fab fa-linkedin-in team-icon"></i> </a>
           <a href="https://github.com/Sandhiya-M"><i class="fab fa-github team-icon"></i></a>
-          <a href=""><i class="bi bi-code team-icon"></i></a>
+          <!--<a href=""><i class="bi bi-code team-icon"></i></a>-->
           <!--<a href=""><i class="fab fa-instagram team-icon"></i></a>-->
           
         </div>
@@ -61,7 +61,7 @@ include("templates/header.php");
         <div class="social">
         <a href="https://www.linkedin.com/in/vignesh-b-17839b233/"> <i class="fab fa-linkedin-in team-icon"></i> </a>
           <a href="https://github.com/vigneshb27"><i class="fab fa-github team-icon"></i></a>
-          <a href=""><i class="bi bi-code team-icon"></i></a>
+          <!--<a href=""><i class="bi bi-code team-icon"></i></a>-->
         </div>
         </div>
       </div>
@@ -77,7 +77,7 @@ include("templates/header.php");
         <div class="social">
         <a href="https://www.linkedin.com/in/vishnu-vinay-5562961bb/"> <i class="fab fa-linkedin-in team-icon"></i> </a>
           <a href="https://github.com/Vishnu4502"><i class="fab fa-github team-icon"></i></a>
-          <a href=""><i class="bi bi-code team-icon"></i></a>
+          <!--<a href=""><i class="bi bi-code team-icon"></i></a>-->
         </div>
         </div>
       </div>
@@ -93,7 +93,7 @@ include("templates/header.php");
         <div class="social">
         <a href="https://www.linkedin.com/in/samuel-tennyson-a35514208/"> <i class="fab fa-linkedin-in team-icon"></i> </a>
           <a href=""><i class="fab fa-github team-icon"></i></a>
-          <a href=""><i class="bi bi-code team-icon"></i></a>
+         <!-- <a href=""><i class="bi bi-code team-icon"></i></a>-->
         </div>
         </div>
       </div>

@@ -56,48 +56,37 @@ else{
         
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3><?php echo $name['Name']?></h3>
+            <h5><b><?php echo $name['Name']; ?> </b></h5>
             </div>
 
             <ul class="list-unstyled components">
-               <!-- <p>Dummy Heading</p>-->
+              
                 <li>
                   <a href="adminpage.php?selected=db" class=<?php if($s=='db') echo "'active'"?>>Dashboard</a>
-
-                <!--
-                <form method="post">
-                    <input  id="vb" class="active" type='submit' name="vb" value='View Book Details'>
-                 -->
+ 
                 </li>
                 <li >
                 <a href="adminpage.php?selected=ab" class=<?php if($s=='ab') echo "'active'"?>>CRUD on Books</a>
-                <!-- <input  type='submit' id="ab"  name="ab" value=' Add Book'>-->
                 </li>
 
                 <li > 
                 <a href="adminpage.php?selected=mu" class=<?php if($s=='mu') echo "'active'"?>>CRUD on users</a>
-                <!--<input  type='submit' id='mu'   name="mu" value='Manage users'>-->
-                </li>
+               </li>
                 <li > 
                 <a href="adminpage.php?selected=pm" class=<?php if($s=='pm') echo "'active'"?>>Purchase History</a>
-                <!--<input  type='submit' id='mu'   name="mu" value='Manage users'>-->
                 </li>
                 <li >
                 <a href="adminpage.php?selected=pb" class=<?php if($s=='pb') echo "'active'"?>>Pending books</a>
-                <!--<input  type='submit' id='rm'  name="rm" value='Return Management'>-->
                 </li>
                 
                 <li >
                 <a href="adminpage.php?selected=bm" class=<?php if($s=='bm') echo "'active'"?>>Borrow Management</a>
-                <!--<input  type='submit' id='bm'  name="bm" value='Borrow Management'>-->
                 </li>
                 <li >
                 <a href="adminpage.php?selected=rm" class=<?php if($s=='rm') echo "'active'"?>>Return Requests</a>
-                <!--<input  type='submit' id='rm'  name="rm" value='Return Management'>-->
                 </li>
                 <li >
                 <a href="adminpage.php?selected=bws" class=<?php if($s=='bws') echo "'active'"?>>Book with staffs</a>
-                <!--<input  type='submit' id='rm'  name="rm" value='Return Management'>-->
                 </li>
                 <br>
 
@@ -181,10 +170,12 @@ if($s=='db'){
     <div class="card borderclr">
       <div class="card-body">
       <i class="icon-user design-icon-student"></i><br><br>
-        <p class="card-text text">Student Donated books</p>
-        <h5 class="card-title titlecss">NA</h5>    
+        <p class="card-text text">Staff users</p><?php
+        $con=mysqli_connect("localhost","root","","lib");
+        $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM staffusers;"));?>
+      <h5 class="card-title titlecss"><?php echo $cnt ?></h5>  
         <br>
-        <a href="#" class="btn btn-primary">More..</a>
+        <a href="adminpage.php?selected=mu" class="btn btn-primary">More..</a>
       </div>
     </div>
   </div>
@@ -195,7 +186,7 @@ if($s=='db'){
       <i class="icon-bubbles design-icon-request"></i><br><br>
       <p class="card-text text">Borrow Request Pending</p>
         <p class="card-text">
-        
+        <div class="table-responsive">
                         <table class="table table-bordered table-text">
                             <thead>
                                 <tr>
@@ -222,7 +213,7 @@ if($s=='db'){
              echo "No requests";
            }?>
        </tr>
-        </table></p>
+        </table></div></p>
         <a href="adminpage.php?selected=bm" class="btn btn-primary mt-2">More..</a>
       </div>
     </div>
@@ -244,6 +235,8 @@ if($s=='db'){
 }
 else if($s=='ab'){
     ?>
+    <h2 class="text-center">CRUD on Books</h2><br>
+
          <button type="button" class = "head-button-view"><a href="booklist.php">View all books</a></button>&nbsp;&nbsp;&nbsp;
          <button type="button" class = "head-button-add"><a href="adminpage.php?selected=ab&opt=add">Add books</a></button>&nbsp;&nbsp;&nbsp;
          <button type="button" class = "head-button-remove"><a href="adminpage.php?selected=ab&opt=del">Remove books</a></button>
@@ -254,7 +247,7 @@ else if($s=='ab'){
         if($opt=='add'){ 
             /* FORM FOR ADDDING THE BOOKS*/
             ?>
-            <div class="container h-100">
+            <div class="container ">
                 <div class="row h-100 justify-content-center align-items-center">
                     
                         
@@ -394,14 +387,13 @@ else if($s=='ab'){
               $rid=NULL;
               $cr=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM rack WHERE rack_type='$rck';"));
               $rid=$cr['rack_id'];
-              echo $rid;
-              echo $aid1;
-              echo $aid2;
-              echo $aid3;
-              echo $pid;
+              
               $res=mysqli_query($con,"INSERT INTO book VALUES($bookid,'$bname','$aid1','$aid2','$aid3','$pid','$pr','$ed','$cp','$rid','available',$cp);");
               if($res==1){
               $rup=mysqli_query($con,"UPDATE rack SET book_count=book_count+1 WHERE rack_id=$rid;");}
+              
+              $ci=0;
+              while($ci!=$cp){
               $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM books;"));
               $cnt=$cnt+1;
               $hexval=dechex($cnt);
@@ -409,7 +401,8 @@ else if($s=='ab'){
     
               $uniqid="2023".$dmn.strtoupper($cnt);
               $books=mysqli_query($con,"INSERT INTO books VALUES('$uniqid','$bookid','available')");
-
+               $ci=$ci+1;  
+            }
               /*Insert book and change the rack book count*/
        }
       ?>
@@ -458,7 +451,9 @@ else if($s=='ab'){
         <?php
         }
 }
-else if($s=='mu'){
+else if($s=='mu'){ ?>
+    <h2 class="text-center">CRUD on  users</h2><br>
+<?php
     $row=mysqli_query($con,"SELECT * FROM staffusers;");
     $staffcnt=mysqli_num_rows($row);?></form>
     <div class="row">
@@ -478,6 +473,7 @@ else if($s=='mu'){
   <div class="col-md-12">
                 <div class="card mt-4">
                     <div class="card-body">
+                    <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -504,7 +500,7 @@ else if($s=='mu'){
 <?php
           }
         
-      ?></table> 
+      ?></table></div> 
         <button type="button" class="head-button-add"><a href="adminpage.php?selected=mu&opt=add">Add Users</a></button>&nbsp;&nbsp;&nbsp;&nbsp;
         <button type="button" class="head-button-remove"><a href="adminpage.php?selected=mu&opt=del">Remove Users</a></button>
        
@@ -544,8 +540,8 @@ else if($s=='mu'){
                     <input type="password" name="pass"  id="pass" class="form-control" required>
                     <br><br>
 
-                    <div class="form-submit"><input type="submit" value="Submit" name="adduser" id="form-submit" class="form-control"></div>
-        </form>
+                    <div class="form-submit"><input type="submit" value="Submit" name="adduser" id="form-submit" class="form-control"></div><br><br>
+        </form></div></div></div>
     <?php 
     if(isset($_POST['adduser'])){
           $id=$_POST['stfid'];
@@ -569,7 +565,7 @@ else if($s=='mu'){
                     <br><br>
                     <div class="form-submit"><input type="submit" value="Submit" name='deluser' id="form-submit" class="form-control"></div>
         </form>
-        <?php
+    </div></div></div><?php
         if(isset($_POST['deluser'])){
              $id=$_POST['id'];
              $del=mysqli_query($con,"DELETE FROM staffusers WHERE staffid=$id;");
@@ -580,10 +576,12 @@ else if($s=='mu'){
 }
 
 else if($s=='bm'){?>
+<h2 class="text-center">Borrow requests</h2><br>
 
     <div class="col-md-12">
                 <div class="card mt-4">
                     <div class="card-body">
+                    <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -703,14 +701,16 @@ else if($s=='bm'){?>
                                 <td colspan="4">No Requests Found</td>
                             </tr>
                             </tbody>
-                        </table>
+                        </table></div>
                         <?php
                     }}}                            
 if($s=='rm'){?>
+<h2 class="text-center">Return Requests</h2><br>
 
 <div class="col-md-12">
                 <div class="card mt-4">
                     <div class="card-body">
+                    <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -721,10 +721,7 @@ if($s=='rm'){?>
                                 <th>Accept</th>
                                 <th>Decline</th>
                                 </tr>
-                            </thead>
-
-
-                    
+                            </thead>                    
                     <?php 
                         $con = mysqli_connect("localhost","root","","lib");
                     if ($con) {
@@ -849,10 +846,12 @@ if($s=='rm'){?>
                                 <td colspan="4">No Requests Found</td>
                             </tr>
                             </tbody>
-                        </table>
+                        </table></div>
                         <?php
                     }}}
-if($s=='pm'){    
+if($s=='pm'){ ?>
+    <h2 class="text-center">Purchase management</h2><br>
+<?php
     $con=mysqli_connect("localhost","root","","lib") ;          
      $row=mysqli_query($con,"SELECT * FROM purchase GROUP BY year ORDER BY year DESC;");
      while($re=mysqli_fetch_array($row)){
@@ -864,7 +863,8 @@ if($s=='pm'){
                 <h4 ><?=$re['year'];?></h4>
                 </div>
                     <div class="card-body">
-                        <table class="table table-bordered">
+                        <div class="table-responsive">
+                         <table class="table table-bordered table-responsive">
                             <thead>
                                 <tr>
                                 <th>Book_id</th>
@@ -884,7 +884,7 @@ if($s=='pm'){
            <td><?= $rs['month'];?></td>
            <td><?= $rs['price'];?></td></tr>
           <?php }
-        ?></table></div><br><?php  
+        ?></table></div></div></div><br><?php  
         }
         
         }
@@ -899,6 +899,7 @@ if($s=='pb'){
     <div class="col-md-12">
                <div class="card mt-4">
                    <div class="card-body">
+                   <div class="table-responsive">
                        <table class="table table-bordered">
                            <thead>
                                <tr>
@@ -919,7 +920,7 @@ if($s=='pb'){
        $unp=$res['username'];
        $nm=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$unp';"));
        $tn=mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid AND return_status='not return';");
-       $trans=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid  AND return_status='not return' ;"));
+       $trans=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid  ;"));
        $bhrw=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM books WHERE book_id='$bid'"));
        $bhid=$bhrw['bhid'];
        $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id='$bhid';"));
@@ -927,6 +928,7 @@ if($s=='pb'){
        $your_date = strtotime($res['exp_return']);
        $datediff =   $your_date-$now;
        $rd=round($datediff / (60 * 60 * 24));
+       if($trans['return_status']=='not return'){
        ?>
           
        <tr>
@@ -937,14 +939,10 @@ if($s=='pb'){
            <td> <?= $bookdet['book_name']?></td>
            <td> <?= $trans['issued_date']?></td>
            <td  <?php if($rd<0) echo "style='background-color:red;'"?>> <?= $res['exp_return']?></td>
-            <td <?php if($rd<0) echo "style='background-color:red;'"?>> <?= $rd ?></td>
-           
-           
+            <td <?php if($rd<0) echo "style='background-color:red;'"?>> <?= $rd ?></td>          
        </tr>
        <?php
-       
-
-    }?>
+       }}?>
     </table>
     <?php
    }
@@ -956,8 +954,8 @@ if($s=='bws'){
 ?>
 <h2 class="text-center">Books with Staffs</h2><br>
       <form method='POST'>
-        <select name='id' class="form-select" style="margin-left:25%">
-        <option>Select the staff</option><?php
+        <select name='id' class="form-select" style="margin-left:25%" required>
+        <option value="null" >Select the staff</option><?php
       $con = mysqli_connect("localhost","root","","lib");
      
   
@@ -986,7 +984,7 @@ if($s=='bws'){
             </div>
       </form><br><br>
 <?php
-if(isset($_POST['Search'])){
+if(isset($_POST['Search']) and $_POST['id']!="null"){
     $id=$_POST['id'];
     $con=mysqli_connect("localhost","root","","lib");
     $reql=mysqli_query($con,"SELECT * FROM request WHERE username='$id' and request_status='accepted' ;");
@@ -999,6 +997,7 @@ if(isset($_POST['Search'])){
         <div class="col-md-12">
                <div class="card mt-4">
                    <div class="card-body">
+                   <div class="table-responsive">
                        <table class="table table-bordered">
                            <thead>
                                <tr>
@@ -1032,7 +1031,7 @@ if(isset($_POST['Search'])){
         </tr>
 <?php
     }}?>
-    </tbody></table>
+    </tbody></table></div>
     <?php
 }
     else{
