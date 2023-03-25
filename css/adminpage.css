@@ -143,8 +143,18 @@ ul.CTAs a {
     font-size: 2.5em;
 }
 
-.design-icon-book{
+.design-icon-book-total{
     color: rgb(8, 240, 85);
+    font-size: 2.5em;
+}
+
+.design-icon-book-it{
+    color: rgb(240, 108, 8);
+    font-size: 2.5em;
+}
+
+.design-icon-book-aids{
+    color: rgb(8, 89, 240);
     font-size: 2.5em;
 }
 

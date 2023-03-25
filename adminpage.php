@@ -137,7 +137,7 @@ if($s=='db'){
   <div class=" col-sm-4">
     <div class="card borderclr">
       <div class="card-body">
-      <i class="icon-book-open design-icon-book"></i><br><br>
+      <i class="icon-book-open design-icon-book-total"></i><br><br>
         <p class="card-text text">Total number of books</p>
         <h5 class="card-title titlecss"><?php echo $cnt ?></h5>
          <br>
@@ -148,12 +148,13 @@ if($s=='db'){
   <div class="col-sm-4">
     <div class="card borderclr">
       <div class="card-body">
-      <i class="icon-bubbles design-icon-request"></i><br><br>
-      <h5 class="card-title">AIDS Book count</h5>
+      <i class="icon-book-open design-icon-book-aids"></i><br><br>
+      <p class="card-text text">AIDS Book count</p>
         <?php
         $con=mysqli_connect("localhost","root","","lib");
         $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM books WHERE LENGTH(book_id) = 11;"));?>
         <h5 class="card-title titlecss"> <?php echo $cnt;?></h5>
+        <br>
         <a href="booklist.php" class="btn btn-primary">More..</a>
      
       </div>
@@ -162,7 +163,7 @@ if($s=='db'){
   <div class="col-sm-4">
     <div class="card borderclr">
       <div class="card-body">
-      <i class="icon-wallet design-icon-wallet"></i><br><br>
+      <i class="icon-book-open design-icon-book-it"></i><br><br>
       <p class="card-text text">IT Book counts</p><?php
       $con=mysqli_connect("localhost","root","","lib");
         $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM books WHERE LENGTH(book_id) = 9;"));?>
@@ -180,8 +181,9 @@ if($s=='db'){
     <div class="card borderclr">
       <div class="card-body">
       <i class="icon-user design-icon-student"></i><br><br>
-        <h5 class="card-title">Student Donated books</h5>
-        <p class="card-text">Student books</p>
+        <p class="card-text text">Student Donated books</p>
+        <h5 class="card-title titlecss">NA</h5>    
+        <br>
         <a href="#" class="btn btn-primary">More..</a>
       </div>
     </div>
@@ -191,7 +193,7 @@ if($s=='db'){
     <div class="card borderclr">
       <div class="card-body">
       <i class="icon-bubbles design-icon-request"></i><br><br>
-      <h5 class="card-title">Borrow Request Pending</h5>
+      <p class="card-text text">Borrow Request Pending</p>
         <p class="card-text">
         
                         <table class="table table-bordered table-text">
@@ -221,7 +223,7 @@ if($s=='db'){
            }?>
        </tr>
         </table></p>
-        <a href="adminpage.php?selected=bm" class="btn btn-primary">More..</a>
+        <a href="adminpage.php?selected=bm" class="btn btn-primary mt-2">More..</a>
       </div>
     </div>
   </div>
@@ -316,7 +318,6 @@ else if($s=='ab'){
         </select>
 	  <br><br>
      
-	  <br><br><br>
 	  <div class="form-submit"><input type="submit" value="Submit" name="addbook" id="form-submit" class="form-control"></div>
       <?php
        if(isset($_POST['addbook'])){
@@ -953,9 +954,10 @@ if($s=='pb'){
    }}
 if($s=='bws'){
 ?>
-<h1>Books with Staffs</h1>
+<h2 class="text-center">Books with Staffs</h2><br>
       <form method='POST'>
-        <select name='id'><?php
+        <select name='id' class="form-select" style="margin-left:25%">
+        <option>Select the staff</option><?php
       $con = mysqli_connect("localhost","root","","lib");
      
   
@@ -977,10 +979,11 @@ if($s=='bws'){
                 // While loop must be terminated
             ?>
                                          
-                </select>&nbsp
+                </select>
+                <br>
 
-             <button type="submit" name="Search" class="btn btn-primary">Search</button>
-
+             <div class="text-center"><button type="submit" name="Search" class="btn btn-primary">Search</button>
+            </div>
       </form><br><br>
 <?php
 if(isset($_POST['Search'])){
@@ -989,7 +992,7 @@ if(isset($_POST['Search'])){
     $reql=mysqli_query($con,"SELECT * FROM request WHERE username='$id' and request_status='accepted' ;");
     $name=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$id'"));
     ?>
-    <h1><?= $name['Name'] ?></h1>
+    <h3 class="text-center"><?= $name['Name'] ?></h3>
     <?php
     $rcnt=mysqli_num_rows($reql);
     if($rcnt!=0){?>
@@ -1035,7 +1038,7 @@ if(isset($_POST['Search'])){
     else{
         ?>
         <br>
-       <table class="table table-bordered"> <tr> No Books borrowed </tr></table>
+       <div class="text-center">No Books borrowed</div>
         <?php
     }
 

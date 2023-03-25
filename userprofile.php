@@ -168,7 +168,7 @@ $(document).ready(function () {
           <p>Book ID</p>
         </div>
         <div class="col-xl-2">
-          <p class="float-end" style='color:black;'><?= $bhrw['book_id']?>
+          <p class="float-end" ><?= $bhrw['book_id']?>
           </p>
         </div>
         <hr>
@@ -213,7 +213,8 @@ $(document).ready(function () {
       </div></div>
       <div class="text-center" style="margin-top: 90px;">
         <button class='btn btn-warning' onclick="printDiv('card')" >Print</button>
-        <p>Please take this receipt to collect your books.</p>
+        <br><br>
+        <p><i>Please take this receipt to collect your books.</i></p>
       </div>
 
     </div>
@@ -369,6 +370,7 @@ if($s=='rr'){
 </div></div></div>
 </div></div></div>
 </body></html>
+
  <?php
   include("templates/footer.php");
   ?>

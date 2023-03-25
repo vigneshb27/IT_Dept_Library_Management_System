@@ -1,8 +1,8 @@
-
+<link rel="stylesheet" href="css/userborrow.css">
 <?php
   
   require("templates/header.php");
-  echo "<h1 style='text-align: center'>Transaction Confirmation</h1>";
+  
   if(isset($_SESSION['user'])){
 
     $un=$_SESSION['user'];
@@ -13,9 +13,9 @@
      $lim=$row['max_bow_lim'];
      //echo "$lim";
      if($lim==0){
-        echo "<p style='color:red;align:center;font-size:30px'>Sorry!! You have reached your maximum limit!!</p>";
+        echo "<h3 style='color:red'>Sorry!! You have reached your maximum limit!!</h3>";
         ?>
-        <a href="userprofile.php?selected=rb"><button class="btn btn-danger">Books Requests</button></a>
+        <div class="text-center"><a href="userprofile.php?selected=rb"><button class="btn btn-danger">Books Requests</button></a></div><br>
         <?php
      }
      else{
@@ -28,9 +28,14 @@
        else{
         
        ?>
-       <h1> Transaction Confirmation </h1>
+       <h3> Transaction Confirmation </h1>
+       <div class="form">
        <form method="POST" action="#">
-          Select the excpected days to return book <select name="days" required> 
+
+          Select the excpected days to return book 
+          <br><br>
+            <select name="days" required class="form-select"> 
+              
             <option name="days" value="1 day">1 day</option>
             <option name="days" value="3 days">3 days</option>
             <option name="days" value="7 days">7 days</option>
@@ -40,14 +45,15 @@
             <option name="days" value="150 days">5 months</option>
             
        </select>
-       <input type="submit" name="submitb"></form>
+       <br>
+       <input type="submit" name="submitb"></div></form>
                    </thead><?php
                    if(isset($_POST['submitb'])){
                    $days=$_POST['days'];?>
                   <div class="col-md-12">
                  <div class="card mt-4">
                  <div class="card-body">
-                  <table class="table table-bordered">
+                  <table class="table table-bordered">  
                    <thead>
                        <tr>
                        <th>Book-id</th>
@@ -77,6 +83,7 @@
                            <td><?= $rwn['edition']; ?></td>
                            <td><a href="borrowconfirm.php?book_id=<?php echo $bisid?>&days=<?php echo $days?>"><button class='btn btn-success' name="borrow">Borrow</button></a>
                           </tr>
+                          </div>
 <?php}  } 
         ?>
       
@@ -101,7 +108,9 @@
 ?>
 
 </table>
+<div class="text-center">
 <a href="bookborrow.php"><button class="btn btn-danger">Back</button></a>
+</div>
 </div></div>
  <?php
   include("templates/footer.php");

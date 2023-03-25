@@ -34,6 +34,17 @@
     </div>
 </body>
 </html>
-<?php
-  include("templates/footer.php");
-  ?>
+
+  
+<footer class="footer mt-auto py-3 text-center text-white" style="background-color: rgba(8, 1, 25, 0.933)">
+    <div class="container">
+      <div>
+        <p>Developed by <a href="about.php" class="text-white"> MIT IT Library Team</a></p>
+      </div>
+      <div>
+        © 2023 Copyright:
+        <a class="text-white" href="http://www.it.mitindia.edu/">MIT IT</a>
+      </div>
+    </div>
+</footer>
+  
