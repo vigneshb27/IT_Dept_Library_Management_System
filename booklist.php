@@ -102,17 +102,19 @@ $(function() {
                                      
                                   
                                     $sql = "SELECT * FROM rack";
+                                    $i=1;
                                     $all_categories = mysqli_query($con,$sql);
                                                 while ($a3 = mysqli_fetch_array(
                                                         $all_categories,MYSQLI_ASSOC)):;
                                             ?>
                                                 <option value="<?php echo $a3["rack_type"];
                                                 ?>">
-                                                    <?php echo $a3["rack_type"];
+                                                    <?php "Rack"." ".$i." - ".echo $a3["rack_type"];
                                                         // To show the category name to the user
                                                     ?>
                                                 </option>
                                                 <?php
+                                                $i+=1;
                                                 endwhile;
                                                 // While loop must be terminated
                                             ?>
@@ -139,8 +141,9 @@ $(function() {
                                 <th>book_id</th>
                                     <th>Book_Name</th>
                                     <th>First author</th>
+                                    <!--
                                     <th>Second Author</th>
-                                    <th>Third Author</th>
+                                    <th>Third Author</th>-->
                                     <th>Publisher Name</th>
                                     <th>Published Year</th>
                                     <th>Edition</th>
@@ -169,8 +172,9 @@ $(function() {
                                                     <td><?= $items['book_id']; ?></td>
                                                     <td><?= $items['book_name']; ?></td>
                                                     <td><?= $items['author_1']; ?></td>
-                                                    <td><?= $items['author_2']; ?></td>
-                                                    <td><?= $items['author_3']; ?></td>
+                                                     <!--
+                                                    <td>$items['author_2']; </td>
+                                                    <td> $items['author_3'];</td>-->
                                                     <td><?= $items['publisher_name']; ?></td>
                                                     <td><?= $items['published_year']; ?></td>
                                                     <td><?= $items['edition']; ?></td>
@@ -208,8 +212,9 @@ $(function() {
                                     <td><?= $items['book_id']; ?></td>
                                     <td><?= $items['book_name']; ?></td>
                                     <td><?= $items['author_1']; ?></td>
-                                    <td><?= $items['author_2']; ?></td>
-                                    <td><?= $items['author_3']; ?></td>
+                                    <!--
+                                    <td>$items['author_2']; </td>
+                                    <td> $items['author_3'];</td>-->
                                     <td><?= $items['publisher_name']; ?></td>
                                     <td><?= $items['published_year']; ?></td>
                                     <td><?= $items['edition']; ?></td>
@@ -247,8 +252,9 @@ $(function() {
                                     <td><?= $items['book_id']; ?></td>
                                     <td><?= $items['book_name']; ?></td>
                                     <td><?= $items['author_1']; ?></td>
-                                    <td><?= $items['author_2']; ?></td>
-                                    <td><?= $items['author_3']; ?></td>
+                                    <!--
+                                    <td>$items['author_2']; </td>
+                                    <td> $items['author_3'];</td>-->
                                     <td><?= $items['publisher_name']; ?></td>
                                     <td><?= $items['published_year']; ?></td>
                                     <td><?= $items['edition']; ?></td>
@@ -286,8 +292,9 @@ $(function() {
                                     <td><?= $items['book_id']; ?></td>
                                     <td><?= $items['book_name']; ?></td>
                                     <td><?= $items['author_1']; ?></td>
-                                    <td><?= $items['author_2']; ?></td>
-                                    <td><?= $items['author_3']; ?></td>
+                                    <!--
+                                    <td>$items['author_2']; </td>
+                                    <td> $items['author_3'];</td>-->
                                     <td><?= $items['publisher_name']; ?></td>
                                     <td><?= $items['published_year']; ?></td>
                                     <td><?= $items['edition']; ?></td>

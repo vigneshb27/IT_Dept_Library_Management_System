@@ -3,7 +3,9 @@
 include "templates/header.php";
 if(isset($_SESSION['admin'])){
     $admin=$_SESSION['admin'];
+
     $con = mysqli_connect("localhost","root","","lib");
+    $name=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$admin';"));
     $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM books;"));
     $cur_year_books = mysqli_num_rows(mysqli_query($con,"SELECT * FROM purchase WHERE year = 2023;"));
 }
@@ -54,7 +56,7 @@ else{
         
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Admin Panel</h3>
+                <h3><?php echo $name['Name']?></h3>
             </div>
 
             <ul class="list-unstyled components">
@@ -81,6 +83,11 @@ else{
                 <!--<input  type='submit' id='mu'   name="mu" value='Manage users'>-->
                 </li>
                 <li >
+                <a href="adminpage.php?selected=pb" class=<?php if($s=='pb') echo "'active'"?>>Pending books</a>
+                <!--<input  type='submit' id='rm'  name="rm" value='Return Management'>-->
+                </li>
+                
+                <li >
                 <a href="adminpage.php?selected=bm" class=<?php if($s=='bm') echo "'active'"?>>Borrow Management</a>
                 <!--<input  type='submit' id='bm'  name="bm" value='Borrow Management'>-->
                 </li>
@@ -88,7 +95,12 @@ else{
                 <a href="adminpage.php?selected=rm" class=<?php if($s=='rm') echo "'active'"?>>Return Requests</a>
                 <!--<input  type='submit' id='rm'  name="rm" value='Return Management'>-->
                 </li>
+                <li >
+                <a href="adminpage.php?selected=bws" class=<?php if($s=='bws') echo "'active'"?>>Book with staffs</a>
+                <!--<input  type='submit' id='rm'  name="rm" value='Return Management'>-->
+                </li>
                 <br>
+
                 <form method='post'>
                     <a>
                 <div class="logout"><a href='adminlogin.php'><i class="bi bi-box-arrow-right"></i> Logout</a></div>
@@ -137,7 +149,49 @@ if($s=='db'){
     <div class="card borderclr">
       <div class="card-body">
       <i class="icon-bubbles design-icon-request"></i><br><br>
-        <h5 class="card-title">Borrow Request Pending</h5>
+      <h5 class="card-title">AIDS Book count</h5>
+        <?php
+        $con=mysqli_connect("localhost","root","","lib");
+        $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM books WHERE LENGTH(book_id) = 11;"));?>
+        <h5 class="card-title titlecss"> <?php echo $cnt;?></h5>
+        <a href="booklist.php" class="btn btn-primary">More..</a>
+     
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card borderclr">
+      <div class="card-body">
+      <i class="icon-wallet design-icon-wallet"></i><br><br>
+      <p class="card-text text">IT Book counts</p><?php
+      $con=mysqli_connect("localhost","root","","lib");
+        $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM books WHERE LENGTH(book_id) = 9;"));?>
+      <h5 class="card-title titlecss"><?php echo $cnt ?></h5>
+         <br>
+        <a href="adminpage.php?selected=pm" class="btn btn-primary">More...</a>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+  <br>
+<div class="row">
+  <div class="col-sm-4">
+    <div class="card borderclr">
+      <div class="card-body">
+      <i class="icon-user design-icon-student"></i><br><br>
+        <h5 class="card-title">Student Donated books</h5>
+        <p class="card-text">Student books</p>
+        <a href="#" class="btn btn-primary">More..</a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-sm-4">
+    <div class="card borderclr">
+      <div class="card-body">
+      <i class="icon-bubbles design-icon-request"></i><br><br>
+      <h5 class="card-title">Borrow Request Pending</h5>
         <p class="card-text">
         
                         <table class="table table-bordered table-text">
@@ -173,45 +227,12 @@ if($s=='db'){
   </div>
   <div class="col-sm-4">
     <div class="card borderclr">
-      <div class="card-body">
+    <div class="card-body">
       <i class="icon-wallet design-icon-wallet"></i><br><br>
       <p class="card-text text">Books purchased this year</p>
       <h5 class="card-title titlecss"><?php echo $cur_year_books ?></h5>
          <br>
         <a href="adminpage.php?selected=pm" class="btn btn-primary">More...</a>
-      </div>
-    </div>
-  </div>
-</div>
-<br>
-  <br>
-<div class="row">
-  <div class="col-sm-4">
-    <div class="card borderclr">
-      <div class="card-body">
-      <i class="icon-user design-icon-student"></i><br><br>
-        <h5 class="card-title">Student Donated books</h5>
-        <p class="card-text">Student books</p>
-        <a href="#" class="btn btn-primary">More..</a>
-      </div>
-    </div>
-  </div>
-  
-  <div class="col-sm-4">
-    <div class="card borderclr">
-      <div class="card-body">
-        <h5 class="card-title">Widget 5</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4">
-    <div class="card borderclr">
-      <div class="card-body">
-        <h5 class="card-title">Widget 6</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
       </div>
     </div>
   </div>
@@ -568,7 +589,8 @@ else if($s=='bm'){?>
                                 <th>user_name</th>
                                 <th>book_id</th>
                                 <th>book_name</th>
-                                <th>request_date</th>
+                                <th>Borrow Request date</th>
+                                <th>Requested Return date</th>
                                 <th>Accept</th>
                                 <th>Decline</th>
                                 </tr>
@@ -649,7 +671,7 @@ else if($s=='bm'){?>
                              
                         }
 
-                        $query = "SELECT username,bhid,requested_date,req_id,request.book_id,request.request_status FROM request INNER JOIN books ON request.book_id=books.book_id WHERE request_status = 'requested' ";
+                        $query = "SELECT username,bhid,requested_date,exp_return,req_id,request.book_id,request.request_status FROM request INNER JOIN books ON request.book_id=books.book_id WHERE request_status = 'requested' ";
                         $query_run = mysqli_query($con, $query);
                         
                         if(mysqli_num_rows($query_run) > 0){
@@ -663,6 +685,7 @@ else if($s=='bm'){?>
                                     <td><?= $items['book_id'];?></td>
                                     <td><?= $bnm['book_name']; ?></td>
                                     <td><?= $items['requested_date']; ?></td>
+                                    <td><?= $items['exp_return'];?></td>
                                     <?php $req_id = $items['req_id'];$book_id=$items['book_id'];?>
                                     <td><a style="color:green;" href="adminpage.php?selected=bm&option=accept&book_id=<?php echo $book_id; ?>&req_id=<?php echo $req_id; ?>" >Accept</a> </td>
                                     <td><a style="color:red;"  href="adminpage.php?selected=bm&option=decline&book_id=<?php echo $book_id; ?>&req_id=<?php echo $req_id; ?>" >Decline</a> </td>
@@ -678,6 +701,8 @@ else if($s=='bm'){?>
                             <tr>
                                 <td colspan="4">No Requests Found</td>
                             </tr>
+                            </tbody>
+                        </table>
                         <?php
                     }}}                            
 if($s=='rm'){?>
@@ -822,6 +847,8 @@ if($s=='rm'){?>
                             <tr>
                                 <td colspan="4">No Requests Found</td>
                             </tr>
+                            </tbody>
+                        </table>
                         <?php
                     }}}
 if($s=='pm'){    
@@ -859,7 +886,166 @@ if($s=='pm'){
         ?></table></div><br><?php  
         }
         
-        } ?>
+        }
+if($s=='pb'){
+    ?><h1>Non-returned Books</h1><?php
+    $con=mysqli_connect("localhost","root","","lib");
+     
+    $req=mysqli_query($con,"SELECT * FROM request WHERE request_status='accepted' ORDER by exp_return;");
+    $cntcheck=mysqli_num_rows(mysqli_query($con,"SELECT * FROM transactions WHERE req_id in ( SELECT req_id FROM request) AND return_status='not return'  ;"));
+    if($cntcheck!=0){
+    ?>
+    <div class="col-md-12">
+               <div class="card mt-4">
+                   <div class="card-body">
+                       <table class="table table-bordered">
+                           <thead>
+                               <tr>
+                               <th>Transaction Id</th>
+                               <th>Request Id</th>
+                               <th>Username</th>
+                               <th>Book Id</th>
+                               <th>Book Name</th>
+                               <th>Date of Borrow</th>
+                               <th>Date to return</th>
+                               <th> Days left</th>
+                               </tr>
+                           </thead>
+<?php
+    while($res=mysqli_fetch_array($req)){
+       $rid=$res['req_id'];
+       $bid=$res['book_id'];
+       $unp=$res['username'];
+       $nm=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$unp';"));
+       $tn=mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid AND return_status='not return';");
+       $trans=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid  AND return_status='not return' ;"));
+       $bhrw=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM books WHERE book_id='$bid'"));
+       $bhid=$bhrw['bhid'];
+       $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id='$bhid';"));
+       $now = time(); // or your date as well
+       $your_date = strtotime($res['exp_return']);
+       $datediff =   $your_date-$now;
+       $rd=round($datediff / (60 * 60 * 24));
+       ?>
+          
+       <tr>
+           <td> <?= $trans['trans_id']?></td>
+           <td> <?= $rid?></td>
+           <td><?=$nm['Name']?></td>
+           <td> <?= $bid?></td>
+           <td> <?= $bookdet['book_name']?></td>
+           <td> <?= $trans['issued_date']?></td>
+           <td  <?php if($rd<0) echo "style='background-color:red;'"?>> <?= $res['exp_return']?></td>
+            <td <?php if($rd<0) echo "style='background-color:red;'"?>> <?= $rd ?></td>
+           
+           
+       </tr>
+       <?php
+       
+
+    }?>
+    </table>
+    <?php
+   }
+   else{?>
+   <p>No books pending!!</p>
+       <?php
+   }}
+if($s=='bws'){
+?>
+<h1>Books with Staffs</h1>
+      <form method='POST'>
+        <select name='id'><?php
+      $con = mysqli_connect("localhost","root","","lib");
+     
+  
+    $sql = "SELECT * FROM staffusers";
+    $all_categories = mysqli_query($con,$sql);
+    $i=1;
+                while ($a3 = mysqli_fetch_array(
+                        $all_categories,MYSQLI_ASSOC)):;
+            ?>
+                <option name='id' value="<?php echo $a3["staffid"];
+                ?>">
+                    <?php echo "<b>".$a3['staffid']."</b>  -".$a3["Name"];
+                        // To show the category name to the user
+                    ?>
+                </option>
+                <?php
+                $i+=1;
+                endwhile;
+                // While loop must be terminated
+            ?>
+                                         
+                </select>&nbsp
+
+             <button type="submit" name="Search" class="btn btn-primary">Search</button>
+
+      </form><br><br>
+<?php
+if(isset($_POST['Search'])){
+    $id=$_POST['id'];
+    $con=mysqli_connect("localhost","root","","lib");
+    $reql=mysqli_query($con,"SELECT * FROM request WHERE username='$id' and request_status='accepted' ;");
+    $name=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$id'"));
+    ?>
+    <h1><?= $name['Name'] ?></h1>
+    <?php
+    $rcnt=mysqli_num_rows($reql);
+    if($rcnt!=0){?>
+        <div class="col-md-12">
+               <div class="card mt-4">
+                   <div class="card-body">
+                       <table class="table table-bordered">
+                           <thead>
+                               <tr>
+                              
+                               <th>Request Id</th>
+                               <th>Book Id</th>
+                               <th>Book Name</th>
+                               <th>Date of Borrow</th>
+                               <th>Date to return</th>
+                               <th>Days left</th>
+                               </tr>
+                           </thead><?php
+    while($rea=mysqli_fetch_array($reql)){
+        $now = time(); // or your date as well
+        $your_date = strtotime($rea['exp_return']);
+        $datediff =   $your_date-$now;
+        $rd=round($datediff / (60 * 60 * 24));
+        $bid=$rea['book_id'];
+        $ri=$rea['req_id'];
+        $trans=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM transactions WHERE req_id='$ri';"));
+        $bnme=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id in (SELECT bhid FROM books WHERE book_id='$bid');"));
+        if($trans['return_status']=='not return'){
+        ?>    
+        <tr>
+           <td><?= $rea['req_id']?></td>
+           <td><?= $rea['book_id']?></td>
+           <td><?= $bnme['book_name']?></td>
+           <td><?= $rea['requested_date']?></td>
+           <td <?php if($rd<0) echo "style='background-color:red;'"?>> <?= $rea['exp_return']?></td>
+           <td <?php if($rd<0) echo "style='background-color:red;'"?>> <?= $rd ?></td>
+        </tr>
+<?php
+    }}?>
+    </tbody></table>
+    <?php
+}
+    else{
+        ?>
+        <br>
+       <table class="table table-bordered"> <tr> No Books borrowed </tr></table>
+        <?php
+    }
+
+}
+
+
+}
+   
+   
+   ?>
                             </tbody>
                         </table>
                     </div>

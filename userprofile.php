@@ -2,7 +2,10 @@
 include("templates/header.php");
 
 if(isset($_SESSION['user'])){
-$un=$_SESSION['user'];}
+$un=$_SESSION['user'];
+$con=mysqli_connect("localhost","root","","lib");
+$name=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$un';"));
+}
 else{
     echo "<script>alert('Please login to borrow!!')</script>";
     echo "<script>window.open('userlogin.php','_self')</script>";
@@ -28,11 +31,12 @@ if(isset($_GET['selected'])){
         
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Profile</h3>
-            </div>
-            <!-- IMAGE include*/
+                 <!-- IMAGE include*/
             <div> <img class="img-thumbnail rounded-circle dim" src='images/prof.jfif'>
-</div>-->
+</div><br>-->
+                <h5><b><?php echo $name['Name']; ?> </b></h5>
+            </div>
+           
             <ul class="list-unstyled components">
                <!-- <p>Dummy Heading</p>-->
                 <li>
@@ -89,7 +93,7 @@ $(document).ready(function () {
     else if($s=='bb'){
      $con=mysqli_connect("localhost","root","","lib");
      
-     $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un' and request_status='accepted' ;");
+     $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un' and request_status='accepted' ORDER by exp_return;");
      $cntcheck=mysqli_num_rows(mysqli_query($con,"SELECT * FROM transactions WHERE req_id in ( SELECT req_id FROM request WHERE username='$un')"));
      if($cntcheck!=0){
      ?>
@@ -105,6 +109,7 @@ $(document).ready(function () {
                                 <th>Book Name</th>
                                 <th>Date of Borrow</th>
                                 <th>Date to return</th>
+                                <th>Receipt</th>
 
                                 </tr>
                             </thead>
@@ -112,12 +117,12 @@ $(document).ready(function () {
      while($res=mysqli_fetch_array($req)){
         $rid=$res['req_id'];
         $bid=$res['book_id'];
-        $tn=mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid;");
+        $tn=mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid ;");
         $trans=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid;"));
         $bhrw=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM books WHERE book_id='$bid'"));
         $bhid=$bhrw['bhid'];
         $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id='$bhid';"));
-            
+          if($trans['return_status']=='not return')  {
         ?>
            
         <tr>
@@ -126,29 +131,126 @@ $(document).ready(function () {
             <td> <?= $bid?></td>
             <td> <?= $bookdet['book_name']?></td>
             <td> <?= $trans['issued_date']?></td>
-            <td> <?= $trans['due_date']?></td>
-            
+            <td> <?= $res['exp_return']?></td>
+            <td><form method="POST"><button class='btn btn-info' name='getr'><a href="userprofile.php?selected=bb&reqid=<?php echo $rid;?>">Get Receipt</a></button></td>
         </tr>
-        <?php
-        
-
-     }?>
+        <?php } }?>
      </table>
-     <?php
-    }
-    else{?>
-    <p>No books in hand!!</p>
         <?php
-    }
+        if(isset($_GET['reqid'])){
 
-    }
+            $rid=$_GET['reqid'];
+        
+            $res=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM request WHERE req_id='$rid';"));
+            $bid=$res['book_id'];
+            $sid=$res['username'];
+            $stf=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM staffusers WHERE staffid='$sid'"));
+            $tn=mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid;");
+            $trans=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM transactions WHERE req_id = $rid;"));
+            $bhrw=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM books WHERE book_id='$bid'"));
+            $bhid=$bhrw['bhid'];
+            $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id='$bhid';"));
+         
+        ?></table></div></div></div>
+<div class="card" >
+  <div class="card-body mx-4" >
+    <div class="container">
+        <div  id='card'>
+      <p class="my-5 mx-5" style="font-size: 30px;color:black;text-align:center;">Department of Information Technology</p>
+      <div class="row">
+        <ul class="list-unstyled">
+          <li class="text-black"><?= $stf['Name'] ?></li>
+          <li class="text-muted mt-1"><span class="text-black"><?= $sid ?></span></li>
+          <li class="text-black mt-1"><?= date('d-m-Y'); ?></li>
+        </ul>
+        <hr>
+        <div class="col-xl-10">
+          <p>Book ID</p>
+        </div>
+        <div class="col-xl-2">
+          <p class="float-end" style='color:black;'><?= $bhrw['book_id']?>
+          </p>
+        </div>
+        <hr>
+      </div>
+      <div class="row">
+        <div class="col-xl-10">
+          <p>Book Name</p>
+        </div>
+        <div class="col-xl-2">
+          <p class="float-end"><?= $bookdet['book_name'];?>
+          </p>
+        </div>
+        <hr>
+      </div>
+      <div class="row">
+        <div class="col-xl-10">
+          <p>Return date</p>
+        </div>
+        <div class="col-xl-2">
+          <p class="float-end"><?= $res['exp_return'];?>
+          </p>
+        </div>
+        <hr>
+      </div>
+      <div class="row">
+        <div class="col-xl-10">
+          <p>Rack Number</p>
+        </div>
+        <div class="col-xl-2">
+          <p class="float-end"><?= $bookdet['rack_id'];?>
+          </p>
+        </div>
+        <hr style="border: 2px solid black;">
+      </div>
+      <div class="row text-black">
+
+        <div class="col-xl-12">
+          <p class="float-end fw-bold">Accepted
+          </p>
+        </div>
+        <hr style="border: 2px solid black;">
+      </div></div>
+      <div class="text-center" style="margin-top: 90px;">
+        <button class='btn btn-warning' onclick="printDiv('card')" >Print</button>
+        <p>Please take this receipt to collect your books.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+    function printDiv(divName) {
+     var printContents = document.getElementById(divName).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}
+</script>
+<?php }
+        }       
+        else { ?>
+            <p>No books in hand!!</p>
+                <?php
+            }
+        } ?>
+     
+     <?php
+    
+    
+
+
 if($s=='rb'){
     $con=mysqli_connect("localhost","root","","lib");
-    $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un' ;");
+    $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un' AND request_status='requested';");
     $cnt=mysqli_num_rows($req);
     if($cnt==0){
         ?>
-        <p>No requests made so far</p>
+        <p>No requests Pending</p>
         <?php
      }
      else{?>
@@ -203,7 +305,7 @@ if($s=='rr'){
     }
     }
     
-     $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un'and request_status='accepted';");
+     $req=mysqli_query($con,"SELECT * FROM request WHERE username='$un'and request_status='accepted' ORDER BY exp_return;");
      $cntcheck=mysqli_num_rows(mysqli_query($con,"SELECT * FROM transactions WHERE req_id in ( SELECT req_id FROM request WHERE username='$un')"));
      if($cntcheck!=0){
      ?>
@@ -219,7 +321,7 @@ if($s=='rr'){
                                 <th>Book Name</th>
                                 <th>Date of Borrow</th>
                                 <th>Date to return</th>
-
+                                <th> Days left</th>
                                 </tr>
                             </thead>
 <?php
@@ -233,6 +335,10 @@ if($s=='rr'){
         $bhrw=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM books WHERE book_id='$bid'"));
         $bhid=$bhrw['bhid'];
         $bookdet=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id=$bhid;"));
+        $now = time(); // or your date as well
+        $your_date = strtotime($res['exp_return']);
+        $datediff =   $your_date-$now;
+        $rd=round($datediff / (60 * 60 * 24));
         if($trans['return_status']=="not return"){            
         ?>
            
@@ -242,7 +348,8 @@ if($s=='rr'){
             <td> <?= $bid?></td>
             <td> <?= $bookdet['book_name']?></td>
             <td> <?= $trans['issued_date']?></td>
-            <td> <?= $trans['due_date']?></td>
+            <td  <?php if($rd<0) echo "style='background-color:red;'"?>> <?= $res['exp_return']?></td>
+            <td <?php if($rd<0) echo "style='background-color:red;'"?>> <?= $rd ?></td>
             <td> <form><button class='btn btn-success'><a href="userprofile.php?selected=rr&trans_id=<?php echo $trans['trans_id'];?>">Return</a></button>
         </tr>
         <?php

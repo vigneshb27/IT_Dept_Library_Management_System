@@ -105,16 +105,18 @@ $(function() {
   
     $sql = "SELECT * FROM rack";
     $all_categories = mysqli_query($con,$sql);
+    $i=1;
                 while ($a3 = mysqli_fetch_array(
                         $all_categories,MYSQLI_ASSOC)):;
             ?>
                 <option value="<?php echo $a3["rack_type"];
                 ?>">
-                    <?php echo $a3["rack_type"];
+                    <?php echo "Rack"." ".$i." - ".$a3["rack_type"];
                         // To show the category name to the user
                     ?>
                 </option>
                 <?php
+                $i+=1;
                 endwhile;
                 // While loop must be terminated
             ?>
@@ -142,8 +144,9 @@ $(function() {
                                 <th>book_id</th>
                                     <th>Book_Name</th>
                                     <th>First author</th>
+                                    <!--
                                     <th>Second Author</th>
-                                    <th>Third Author</th>
+                                    <th>Third Author</th>-->
                                     <th>Publisher Name</th>
                                     <th>Published Year</th>
                                     <th>Edition</th>
@@ -160,6 +163,7 @@ $(function() {
                                     if(isset($_GET['search_by_book']))
                                     {
                                         $filtervalues = $_GET['search_by_book'];
+                                        
                                         $query = "SELECT a1.name AS author_1, a2.name AS author_2, a3.name AS author_3,book_id,book_name,publisher_name,published_year,rack_type,edition,available_copies,availability FROM book AS b INNER JOIN publisher on b.publisher_id=publisher.publisher_id INNER JOIN rack on b.rack_id=rack.rack_id LEFT JOIN author AS a1 ON b.author1 = a1.author_id LEFT JOIN author AS a2 ON b.author2 = a2.author_id LEFT JOIN author AS a3 ON b.author3 = a3.author_id WHERE book_name LIKE '%$filtervalues%'";
                                         $query_run = mysqli_query($con, $query);
 
@@ -172,8 +176,9 @@ $(function() {
                                                     <td><?= $items['book_id']; ?></td>
                                                     <td><?= $items['book_name']; ?></td>
                                                     <td><?= $items['author_1']; ?></td>
-                                                    <td><?= $items['author_2']; ?></td>
-                                                    <td><?= $items['author_3']; ?></td>
+                                                    <!--
+                                    <td>$items['author_2']; </td>
+                                    <td> $items['author_3'];</td>-->
                                                     <td><?= $items['publisher_name']; ?></td>
                                                     <td><?= $items['published_year']; ?></td>
                                                     <td><?= $items['edition']; ?></td>
@@ -213,8 +218,9 @@ $(function() {
                                     <td><?= $items['book_id']; ?></td>
                                     <td><?= $items['book_name']; ?></td>
                                     <td><?= $items['author_1']; ?></td>
-                                    <td><?= $items['author_2']; ?></td>
-                                    <td><?= $items['author_3']; ?></td>
+                                    <!--
+                                    <td>$items['author_2']; </td>
+                                    <td> $items['author_3'];</td>-->
                                     <td><?= $items['publisher_name']; ?></td>
                                     <td><?= $items['published_year']; ?></td>
                                     <td><?= $items['edition']; ?></td>
@@ -254,8 +260,9 @@ $(function() {
                                     <td><?= $items['book_id']; ?></td>
                                     <td><?= $items['book_name']; ?></td>
                                     <td><?= $items['author_1']; ?></td>
-                                    <td><?= $items['author_2']; ?></td>
-                                    <td><?= $items['author_3']; ?></td>
+                                    <!--
+                                    <td>$items['author_2']; </td>
+                                    <td> $items['author_3'];</td>-->
                                     <td><?= $items['publisher_name']; ?></td>
                                     <td><?= $items['published_year']; ?></td>
                                     <td><?= $items['edition']; ?></td>
@@ -295,8 +302,9 @@ $(function() {
                                     <td><?= $items['book_id']; ?></td>
                                     <td><?= $items['book_name']; ?></td>
                                     <td><?= $items['author_1']; ?></td>
-                                    <td><?= $items['author_2']; ?></td>
-                                    <td><?= $items['author_3']; ?></td>
+                                     <!--
+                                    <td>$items['author_2']; </td>
+                                    <td> $items['author_3'];</td>-->
                                     <td><?= $items['publisher_name']; ?></td>
                                     <td><?= $items['published_year']; ?></td>
                                     <td><?= $items['edition']; ?></td>
@@ -331,12 +339,12 @@ $(function() {
     </div>
 <?php
 // Set session variables
-$_SESSION["user_id"] = /*$_GET['search']*/4567 ;
+
 ?>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-
+              
 </body>
 </html>
 <?php

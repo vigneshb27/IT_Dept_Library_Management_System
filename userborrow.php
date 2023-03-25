@@ -14,6 +14,9 @@
      //echo "$lim";
      if($lim==0){
         echo "<p style='color:red;align:center;font-size:30px'>Sorry!! You have reached your maximum limit!!</p>";
+        ?>
+        <a href="userprofile.php?selected=rb"><button class="btn btn-danger">Books Requests</button></a>
+        <?php
      }
      else{
        $rb=mysqli_query($con,"SELECT * FROM book WHERE book_id='$bid';");
@@ -23,11 +26,28 @@
         echo "<p style='color:red;align:center;font-size:30px'>Sorry!! The book is not avialable</p>";
        }
        else{
+        
        ?>
-       <div class="col-md-12">
-       <div class="card mt-4">
-           <div class="card-body">
-               <table class="table table-bordered">
+       <h1> Transaction Confirmation </h1>
+       <form method="POST" action="#">
+          Select the excpected days to return book <select name="days" required> 
+            <option name="days" value="1 day">1 day</option>
+            <option name="days" value="3 days">3 days</option>
+            <option name="days" value="7 days">7 days</option>
+            <option name="days" value="14 days">14 days</option>
+            <option name="days" value="30 days">1 month</option>
+            <option name="days" value="60 days">2 months</option>
+            <option name="days" value="150 days">5 months</option>
+            
+       </select>
+       <input type="submit" name="submitb"></form>
+                   </thead><?php
+                   if(isset($_POST['submitb'])){
+                   $days=$_POST['days'];?>
+                  <div class="col-md-12">
+                 <div class="card mt-4">
+                 <div class="card-body">
+                  <table class="table table-bordered">
                    <thead>
                        <tr>
                        <th>Book-id</th>
@@ -38,8 +58,9 @@
                        <th>Published year</th>
                        <th>Edition</th>
                        
-                       </tr>
-                   </thead><?php
+                       </tr><?php 
+                  
+                  
                    while($bisrow=mysqli_fetch_array($bis)){
                     $bisid=$bisrow['book_id'];
                     $query = "SELECT a1.name AS author_1, a2.name AS author_2, a3.name AS author_3,book_id,book_name,publisher_name,published_year,rack_type,edition,available_copies,availability FROM book AS b INNER JOIN publisher on b.publisher_id=publisher.publisher_id INNER JOIN rack on b.rack_id=rack.rack_id LEFT JOIN author AS a1 ON b.author1 = a1.author_id LEFT JOIN author AS a2 ON b.author2 = a2.author_id LEFT JOIN author AS a3 ON b.author3 = a3.author_id WHERE book_id='$bid';";
@@ -54,9 +75,9 @@
                            <td><?= $rwnb['author_3']; ?></td>
                            <td><?= $rwn['published_year']; ?></td>
                            <td><?= $rwn['edition']; ?></td>
-                           <td><a href="borrowconfirm.php?book_id=<?php echo $bisid?>"><button class='btn btn-success'>Borrow</button></a>
+                           <td><a href="borrowconfirm.php?book_id=<?php echo $bisid?>&days=<?php echo $days?>"><button class='btn btn-success' name="borrow">Borrow</button></a>
                           </tr>
-<?php}   
+<?php}  } 
         ?>
       
       <!--
@@ -69,7 +90,8 @@
        
     }
     }
-  }}
+  }}}
+
   else{
     echo "<script>alert('Please login to borrow!!')</script>";
     echo "<script>window.open('userlogin.php','_self')</script>";
@@ -77,6 +99,10 @@
   }
  
 ?>
+
+</table>
+<a href="bookborrow.php"><button class="btn btn-danger">Back</button></a>
+</div></div>
  <?php
   include("templates/footer.php");
   ?>
