@@ -34,8 +34,6 @@
     </div>
 </body>
 </html>
-
-  
 <footer class="footer mt-auto py-3 text-center text-white" style="background-color: rgba(8, 1, 25, 0.933)">
     <div class="container">
       <div>

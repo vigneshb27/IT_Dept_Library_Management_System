@@ -378,6 +378,7 @@ else if($s=='ab'){
               $books=mysqli_query($con,"INSERT INTO books VALUES('$uniqid','$bookid','available')");
                $ci=$ci+1;  
             }
+            echo "<script>alert('Added Successfully')</script>";
               /*Insert book and change the rack book count*/
        }
       ?>
@@ -407,14 +408,21 @@ else if($s=='ab'){
             <?php
           if(isset($_POST['delete'])){
             $b_id=$_POST['bid'];
-            $brw=mysqli_query($con,"SELECT * FROM books WHERE book_id='$b_id'");
+            $brw=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM books WHERE book_id='$b_id'"));
             $bid=$brw['bhid'];
-            $rckq=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id=$bid;"));
+            $rckq=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM book WHERE book_id='$bid';"));
             $rckid=$rckq['rack_id'];
-            $rp=mysqli_query($con,"DELETE FROM book WHERE book_id=$bid;");
+            $bcpcnt=$rckq['copies'];
+            if($bcpcnt==1){
+            $rp=mysqli_query($con,"DELETE FROM book WHERE book_id='$bid';");}
+            else{
+                $rp=mysqli_query($con,"UPDATE book SET copies=copies-1 WHERE book_id='$bid';");
+                $rp=mysqli_query($con,"UPDATE book SET available_copies=available_copies-1 WHERE book_id='$bid';");
+
+            }
             $rup=mysqli_query($con,"UPDATE rack SET book_count=book_count-1 WHERE rack_id=$rckid;");
             $bdes=mysqli_query($con,"DELETE FROM books WHERE book_id='$b_id'");
-            echo "Deleted Successfully";
+            echo "<script>alert('Deleted Successfully')</script>";
           }            
         }
         
