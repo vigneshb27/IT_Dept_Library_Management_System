@@ -94,7 +94,7 @@ else {
 	$row=mysqli_fetch_array($res);
 	if($row['pwd']!=$pwd)
 	{
-		echo "<script>window.alert('Wrong password!! you can try clicking the forgot passoword')</script>";
+		echo "<script>window.alert('Wrong password!!')</script>";
 	}
 	else{
 		

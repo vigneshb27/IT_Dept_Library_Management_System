@@ -184,37 +184,12 @@ if($s=='db'){
     <div class="card borderclr">
       <div class="card-body">
       <i class="icon-bubbles design-icon-request"></i><br><br>
-      <p class="card-text text">Borrow Request Pending</p>
-        <p class="card-text">
-        <div class="table-responsive">
-                        <table class="table table-bordered table-text">
-                            <thead>
-                                <tr>
-                                <th>user_name</th>
-                                <th>book_id</th>
-                                
-                                </tr>
-                            </thead> <tr>
-        <?php 
-        $brw=mysqli_query($con,"SELECT * FROM request WHERE request_status='Requested'");
-        $i=0;
-        $cnt=mysqli_num_rows($brw);
-        //echo $cnt;
-        if($cnt!=0){
-        while($row=mysqli_fetch_array($brw) and $i!=2){
-            $i=$i+1;
-            ?>
-             <td><?php echo $row['username'];?></td>
-             <td><?php echo $row['book_id'];?></td>
-        </tr>
-        <?php
-           }}
-           else{
-             echo "No requests";
-           }?>
-       </tr>
-        </table></div></p>
-        <a href="adminpage.php?selected=bm" class="btn btn-primary mt-2">More..</a>
+      <p class="card-text text">Borrow Request Pending</p><?php
+            $con=mysqli_connect("localhost","root","","lib");
+            $cnt=mysqli_num_rows(mysqli_query($con,"SELECT * FROM request WHERE request_status='Requested'"));?>
+        <h5 class="card-title titlecss"><?php echo $cnt ?></h5>  
+        <br>
+        <a href="adminpage.php?selected=bm" class="btn btn-primary">More..</a>
       </div>
     </div>
   </div>
@@ -794,7 +769,7 @@ if($s=='rm'){?>
                                 $status = "UPDATE return_request SET return_req_status = \"declined\" WHERE return_req_id=$return_req_id";
 
                                 if (mysqli_query($con, $status)) {
-                                    echo "status successful";
+                                    //echo "status successful";
                                 }
                                 else {
                                         echo "Error: <br>" . mysqli_error($con);
@@ -802,7 +777,7 @@ if($s=='rm'){?>
 
                                 $trans  = "UPDATE transactions SET return_status='not return' WHERE trans_id = $trans_id";
                                 if (mysqli_query($con, $trans)){
-                                    echo "inserted into  transaction";
+                                  //  echo "inserted into  transaction";
                                 }
                                 else {
                                     echo "Error: <br>" . mysqli_error($con);
